@@ -162,6 +162,7 @@ body {
     vertical-align: middle;
     line-height: 1.1;
     margin-left: 10px;
+    transition: color 250ms ease-out;
 }
 
 .add__btn:active { transform: translateY(2px); }
@@ -171,6 +172,7 @@ body {
 .add__value:focus {
     outline: none;
     border: 1px solid #28B9B5;
+    transition: border 150ms ease-in;
 }
 
 .add__btn:focus { outline: none; }
