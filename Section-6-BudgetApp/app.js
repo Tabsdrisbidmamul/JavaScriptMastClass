@@ -183,6 +183,13 @@ var uiController = (function() {
             
         },
         
+        deleteListItem: function(selectorID) {
+            
+            var el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);
+            
+        },
+        
         clearFields: function() {
             var fields, fieldsArray;
             
@@ -277,6 +284,7 @@ var contoller = (function(budgetCtrl, uiCtrl) {
     };
     
     var ctrlDeleteItem = function(event) {
+        // helper function to extract the parent ID of the inc or exp
         var findParent = function(el, className) {
             while((el = el.parentElement) && !el.classList.contains(className));
             return el;
@@ -287,8 +295,6 @@ var contoller = (function(budgetCtrl, uiCtrl) {
         // Making sure that the "x" button/ i element was clicked and find its parent elements
         itemDelete = findParent(event.target, 'item__delete');
         if (itemDelete) itemID = itemDelete.parentNode.parentNode.id;
-        
-        console.log(itemID);
         
         if(itemID) {
             
@@ -301,13 +307,12 @@ var contoller = (function(budgetCtrl, uiCtrl) {
             budgetCtrl.deleteItem(type, ID);
             
             // 2. Delete the item from the UI
-            
+            uiCtrl.deleteListItem(itemID);
             
             // 3. Update and show the new budget
+            updateBudget();
             
         }
-        
-        
     };
     
     return {
