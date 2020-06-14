@@ -90,7 +90,7 @@ Lecture: Blocks and IIFEs
 //console.log(c);
 
 /* ------------------------------------------
-Lecture: Blocks and IIFEs
+Lecture: Strings
 */
 
 //let firstName = "John";
@@ -251,105 +251,646 @@ Lecture: Arrow functions 2
 /* ------------------------------------------
 Lecture: Destructuring
 */
+//
+//
+//// ES5 
+////var john = ["John", 26];
+////var name = john[0];
+////var age = john[1];
+//
+//// ES6
+//// It will store each of array contents to the respected position of the variables on the LHS
+//
+//// name:= "John"
+//// age := 26
+//
+//// Depending on the Data structure, you will have to wrap the LHS according to it
+//
+//// So in this example, we have arrays, so we wrap the LHS with brackets, if it were an Object we wrap it round curly braces {}
+//const [name, year] = ["John", 26];
+//console.log(name);
+//console.log(year);
+//
+//const obj = {
+//    firstName: "John",
+//    lastName: "Smith"
+//};
+//
+//// These keys have to match the field names in the object
+//const {firstName, lastName} = obj;
+//console.log(firstName);
+//console.log(lastName);
+//
+//// To have custom names we reference the keyname to a value like so in the destructuring side (LHS)
+//const {firstName: a, lastName: b} = obj;
+//console.log(a);
+//console.log(b);
+//
+//
+//function caclAgeAndRetirement(year) {
+//    const age = new Date(2016, 8, 26).getFullYear() - year;
+//    return [age, 65 - age];
+//}
+//
+//
+//let [age, retirement] = caclAgeAndRetirement(1990);
+//
+//console.log(age);
+//console.log(retirement);
+
+/* ------------------------------------------
+Lecture: Arrays
+*/
+
+//const boxes = document.querySelectorAll(".box");
+
+// ES5
+/*var boxesArr5 = Array.prototype.slice.call(boxes);
+
+boxesArr5.forEach(function(curr){
+    curr.style.background = "dodgerblue";
+})*/
+
+
+
+// ES6
+//const boxesArr6 = Array.from(boxes);
+//boxesArr6.forEach(curr => curr.style.background = "dodgerBlue");
+
+// Can be written like this, as the from() will return the Array instance
+
+//Array.from(boxes).forEach(curr => curr.style.background = "dodgerBlue");
+
+// ES5
+/*for(var i=0; i<boxesArr5.length; i++) {
+    var curr = boxesArr5[i];
+    if(curr.className === "box blue") continue;
+    
+    curr.textContent = "I changed to blue!";
+}*/
+
+// ES6
+/*for(const curr of boxesArr6) {
+    if(curr.className.includes("blue")) continue;
+    
+    curr.textContent = "I changed to blue";
+}
+
+var ages = [12, 17, 8, 21, 14, 11, 18];
+
+// ES5
+//var fullAge = ages.map(function(cur) {
+//    return cur >= 18;
+//});
+//console.log(fullAge.indexOf(true));
+//console.log(ages[fullAge.indexOf(true)]);
+
+// ES6
+console.log(ages.findIndex(cur => cur >= 18));
+
+console.log(ages.find(cur => cur >= 18));
+console.log(ages.filter(cur => cur >= 18));*/
+
+
+/* ------------------------------------------
+Lecture: Spread operator
+*/
+
+/*function addFourAges(a, b, c, d) {
+    return a + b + c + d;
+}
+
+var sum1 = addFourAges(18, 30, 12, 21);
+console.log(sum1);
+
 
 
 // ES5 
-//var john = ["John", 26];
-//var name = john[0];
-//var age = john[1];
+var ages = [18, 30, 12, 21];
+var sum2 = addFourAges.apply(null, ages);
+console.log(sum2);
 
 // ES6
-// It will store each of array contents to the respected position of the variables on the LHS
+const sum3 = addFourAges(...ages);
+console.log(sum3);
 
-// name:= "John"
-// age := 26
+const familySmith = ["John", "Jane", "Mark"];
+const familyMiller = ["Miller", "Bob", "Ann"];
 
-// Depending on the Data structure, you will have to wrap the LHS according to it
+const bigFamily = [...familySmith, "Lily", ...familyMiller];
+console.log(bigFamily);
 
-// So in this example, we have arrays, so we wrap the LHS with brackets, if it were an Object we wrap it round curly braces {}
-const [name, year] = ["John", 26];
-console.log(name);
-console.log(year);
+const h = document.querySelector("h1");
+const boxes = document.querySelectorAll(".box");
 
-const obj = {
-    firstName: "John",
-    lastName: "Smith"
-};
+const all = [h, ...boxes];
+// Both the same
+Array.from(all).forEach(cur => cur.style.color = "purple");
 
-// These keys have to match the field names in the object
-const {firstName, lastName} = obj;
-console.log(firstName);
-console.log(lastName);
-
-// To have custom names we reference the keyname to a value like so in the destructuring side (LHS)
-const {firstName: a, lastName: b} = obj;
-console.log(a);
-console.log(b);
+//[...all].forEach(cur => cur.style.color = "purple");*/
 
 
-function caclAgeAndRetirement(year) {
-    const age = new Date(2016, 8, 26).getFullYear() - year;
-    return [age, 65 - age];
+
+/* ------------------------------------------
+Lecture: Rest Parameters
+*/
+
+// ES5
+/*function isFullAge5() {
+    var argsArray = Array.prototype.slice.call(arguments);
+    
+    argsArray.forEach(function(cur) {
+        console.log((2016-cur) >= 18);
+    });
+
 }
 
+isFullAge5(1990, 1999, 1965);
+isFullAge5(1990, 1999, 1965, 2016, 1987);
 
-let [age, retirement] = caclAgeAndRetirement(1990);
+// ES6
+function isFullAge6(...years) {
+    years.forEach(cur => console.log((2016-cur) >= 18));
+}
 
-console.log(age);
-console.log(retirement);
+//isFullAge6(1990, 1999, 1965);
+isFullAge6(1990, 1999, 1965);
+isFullAge6(1990, 1999, 1965, 2016, 1987);*/
 
+//function isFullAge5(limit) {
+//    var argsArray = Array.prototype.slice.call(arguments, 1);
+//    
+//    argsArray.forEach(function(cur) {
+//        console.log((2016-cur) >= limit);
+//    });
+//
+//}
+//
+//isFullAge5(16, 1990, 1999, 1965);
+//isFullAge5(1990, 1999, 1965, 2016, 1987);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// ES6
+//function isFullAge6(limit, ...years) {
+//    years.forEach(cur => console.log((2016-cur) >= limit));
+//}
+//
+////isFullAge6(21, 1990, 1999, 1965);
+//isFullAge6(16, 1990, 1999, 1965, 2016, 1987);
 
 
 
+/* ------------------------------------------
+Lecture: Default Parameters
+*/
+
+
+// ES5 
+//function SmithPerson(firstName, yearOfBirth, lastName, nationality) {
+//    
+//    this.lastName = lastName === undefined ? "Smith" : lastName;
+//    
+//    this.nationality = nationality === undefined ? "American" : nationality;
+//    
+//    this.firstName = firstName;
+//    this.yearOfBirth = yearOfBirth;
+//
+//}
+//
+//var john = new SmithPerson("John", 1990);
+//var emily = new SmithPerson("Emily", 1983, "Diaz", "Spanish");
+
+// ES6
+/*
+To skip parameters you specify them in that order but with a undefined
+    
+    function SmithPerson(firstName, lastName="Smith), yearOfBith, nationality="American") {...}
+    
+Like so    
+    SmithPerson("John, undefined, 1990);
+    
+*/
+function SmithPerson(firstName, yearOfBirth, lastName="Smith", nationality="American") {
+    this.firstName = firstName;
+    this.yearOfBirth = yearOfBirth;
+    this.lastName = lastName;
+    this.nationality = nationality;
+
+}
+
+var john = new SmithPerson("John", 1990);
+var emily = new SmithPerson("Emily", 1983, "Diaz", "Spanish");
+
+
+/* ------------------------------------------
+Lecture: Maps
+*/
 
 
 
+//const question = new Map();
+//question.set("question", "What is the official name of the latest major JavaScript version?");
+//
+//question.set(1, "ES5");
+//question.set(2, "ES6");
+//question.set(3, "ES2015");
+//question.set(4, "ES7");
+//question.set("correct", 3);
+//question.set(true, "correct answer");
+//question.set(false, "Incorrect answer, please try again");
+
+//console.log(question.get("question"));
+//console.log(question.size);
+
+//if(question.has(4)) {
+//    question.delete(4);
+//    console.log("Answer 4 is here");
+//}
+//question.clear();
+
+//question.forEach((v, k) => console.log(`${k}: ${v}`));
+
+//let arr = [1, 2, 3, 4, 5];
+
+/*
+    - We use for..in for arrays
+    - We use for..of for objects - like instances from classes, Maps etc...
+
+*/
+//for(let [cur, i] in arr) {
+//    console.log(`Current value is ${cur}, and the index is ${i}`);
+//}
+
+//for(let [key, value] of question.entries()) {
+//    if(typeof(key) === "number") {
+//        console.log(`Answer ${key}: ${value}`);
+//    }
+//}
+//
+//const ans = parseInt(prompt("Write the correct answer"));
+//
+//console.log(question.get(question.get("correct") === ans));
 
 
+/* ------------------------------------------
+Lecture: Classes
+*/
+
+/*// ES5
+var Person5 = function(name, yearOfBirth, job) {
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
+}
+
+Person5.prototype.calculateAge = function() {
+    var age = new Date(2016, 8, 26).getFullYear() - this.yearOfBirth;
+    console.log(age);
+}
+
+var john5 = new Person5("John", 1990, "teacher");
+
+// ES6
+
+class Person6 {
+    constructor(name, yearOfBirth, job) {
+        this.name = name;
+        this.yearOfBirth = yearOfBirth;
+        this.job = job;
+    }
+    
+    calculateAge() {
+        const age = new Date(2016, 8, 26).getFullYear() - this.yearOfBirth;
+        console.log(age);
+    }
+    
+    static greeting() {
+        console.log("Hey there!");
+    }
+}
+
+const john6 = new Person6("John", 1990, "teacher");
+
+john5.calculateAge();
+john6.calculateAge();*/
+
+//Person6.greeting();
 
 
+/* ------------------------------------------
+Lecture: Classes and Subclasses
+*/
+
+//// ES5
+//var Person5 = function(name, yearOfBirth, job) {
+//    this.name = name;
+//    this.yearOfBirth = yearOfBirth;
+//    this.job = job;
+//}
+//
+//Person5.prototype.calculateAge = function() {
+//    var age = new Date(2016, 8, 26).getFullYear() - this.yearOfBirth;
+//    console.log(age);
+//}
+//
+//var john5 = new Person5("John", 1990, "teacher");
+//
+///*
+//We use the call method on the Function Constructor, and what this is effectively doing is calling the new operator on the Person5 construtor - the keyword "this" is pointing to a Athelete object - meaning that we are telling it to set the name, yearOfBirth and the job to the Athelete object
+//
+//
+//*/
+//var Athlete5 = function(name, yearOfBirth, job, olympicGames, medals) {
+//    Person5.call(this, name, yearOfBirth, job);
+//    this.olympicGames = olympicGames;
+//    this.medals = medals;
+//    
+//}
+//
+///*
+//This is done to preserve the prototype chain - we must be done if we want to access methods within Person5 prototypes 
+//
+//so if we call Athlete5.prototype.calculateAge()
+//    - JS will look in the Athelete5 prototype first to see if there is a method called calculateAge within the Athelete5 prototype 
+//    Which there isn't one
+//    - So it will go up the chain to Person5 prototypes, and there is find its and calls it
+//    
+//If JS could not find in Person5 prototypes, then it will go up one to the Object prototypes and if its is not there, it will go up one again to reach null - there it will stop and throw an exception saying that the method calculateAge() does not exist
+//
+//To add methods to the Athelete5 prototype, it must be done after we have connected the Athelete5 and Person5 prototypes together
+//
+//*/
+//
+//
+//
+//Athlete5.prototype = Object.create(Person5.prototype);
+//
+//Athlete5.prototype.wonMedal = function() {
+//    this.medals++;
+//    console.log(this.medals);
+//}
+//
+//
+//var johnAthelete5 = new Athlete5("John", "1990", "Swimmer", 3, 10);
+//
+//
+//johnAthelete5.calculateAge();
+//johnAthelete5.wonMedal();
+//
+//
+//
+//// ES6
+//class Person6 {
+//    constructor(name, yearOfBirth, job) {
+//        this.name = name;
+//        this.yearOfBirth = yearOfBirth;
+//        this.job = job;
+//    }
+//    
+//    calculateAge() {
+//        const age = new Date(2016, 8, 26).getFullYear() - this.yearOfBirth;
+//        console.log(age);
+//    }
+//    
+//}
+//
+//class Athlete6 extends Person6 {
+//    constructor(name, yearOfBirth, job, olympicGames, medals) {
+//        super(name, yearOfBirth, job);
+//        this.olympicGames = this.olympicGames;
+//        this.medals = medals;
+//    }
+//    
+//    wonMedals() {
+//        this.medals++;
+//        console.log(this.medals);
+//    }
+//}
+//
+//
+//var johnAthelete6 = new Athlete6("John", "1990", "Swimmer", 3, 10);
+//
+//
+//johnAthelete6.calculateAge();
+//johnAthelete6.wonMedals();
 
 
+/* ------------------------------------------
+Lecture: CODING CHALLENGE
+*/
 
 
+/*
+Suppose that you are working in a small town adminstaration, and you are in charge of 2 town elements
+    1. Parks
+    2. Streets
+
+It is a very small town, so right now there are only 3 parks and 4 streets. All partks and streets have a name and a build year
+
+At an end-of-year meeting, your boss wants a final report with the following:
+    1. Tree density of each park in the town
+    formula: number of trees / park area
+    
+    2. Average age of each town's park
+    forumla: sum of all ages/ number of parks
+    
+    3. The name of the park that has more than 100 trees
+    
+    4. Total and average length of the town's streets
+    
+    5. Size and classification of all streets: tiny/ small/ normal/ big/ huge. If the size is unknownn, the default is normal
+    
+
+All the report data should be printed to the console
 
 
+HINT: Use some of the ES6 features: classes, subclasses, Semplate Strings, default parameters, maps, arrow functions, destructring, etc.
 
+*/
 
+const parkCtrl = (function() {
+    class Park {
 
+        constructor(name, buildYear, numberOfTrees, parkArea) {
+            this.name = name;
+            this.buildYear = buildYear;
+            this.numberOfTrees = numberOfTrees;
+            this.parkArea = parkArea;
+        }
 
+        calculateTreeDensity() {
+            return this.numberOfTrees / this.parkArea;
+        }
 
+    }
 
+    let parks;
 
+    const createParkMap = function() {
+        parks = new Map();
 
+        const park1 = new Park("Green Park", 1989, 5000, 55);
+        const park2 = new Park("National Park", 1957, 589856, 85);
+        const park3 = new Park("Oak Park", 2000, 23650, 65);
 
+        parks.set("park1", park1);
+        parks.set("park2", park2);
+        parks.set("park3", park3);
+        
+        
+    }
+    
+    const parkReport = function() {
+        
+        // 0. Create parks
+        console.log("---PARKS REPORT---");
+        createParkMap();
+        
+        // 1. Calculate Tree Density
+        // 2. Output Tree Density
+        printTreeDensity(parks);
+        
+        // 3. Calculate Average Ages
+        const avgAge = calcAvgAge(parks);
+        
+        // 4. Output Average Ages
+        printAverageOfParks(avgAge);
+        
+        // 5. Calculate park that has more than 1000 trees
+        // 6. Output 100 trees
+        printGreaterThan100Trees(parks);
+        
+    }
+    
+    const calcAvgAge = function(parks) {
+        let sum = 0;
+        const size = parks.size;
+        for(const v of parks.values()) {
+            sum += v.buildYear;
+        }
+        return sum / parks.size;
+    }
+
+    
+    const printGreaterThan100Trees = function(parks, callback=(park) => [park[1].numberOfTrees > 1000, park[1].name]) {
+        for(const park of parks) {
+            const [treeBool, parkName] = callback(park);
+            if(treeBool) {
+                console.log(`${parkName} has more than 1000 trees`);
+            }
+        }
+    }
+
+    const printTreeDensity = function(parks) {
+        for(const v of parks.values()) {
+            console.log(`${v.name} has a tree density of ${v.calculateTreeDensity()} trees per square km.`);
+        }
+    }
+
+    const printAverageOfParks = function(avgAge) {
+        console.log(`Our ${parks.size} parks have an average age of ${avgAge} years. `);
+    }
+    
+    return {
+        report: parkReport
+    }
+    
+})();
+
+const streetCtrl = (function() {
+    class Street {
+        constructor(name, buildYear, length) {
+            this.name = name;
+            this.buildYear = buildYear;
+            this.length = length;
+        }
+        
+        getClassification() {
+            let msg;
+            if(this.length < 1) {
+                msg = "tiny";
+            } else if(this.length < 5) {
+                msg = "small";
+            } else if(this.length < 10) {
+                msg = "normal";
+            } else if(this.length < 25) {
+                msg = "big";        
+            } else if (this.length <= 50) {
+                msg = "huge";
+            }
+            return msg;
+        }
+    }
+    
+    let streets;
+    
+    const createStreets = function() {
+        streets = new Map();
+        streets.set("street1", new Street("Ocean Avenue", 1999, 36));
+        
+        streets.set("street2", new Street("Evergreen Street", 2008, .5));
+        
+        streets.set("street3", new Street("4th Street", 2015, 20));
+        
+        streets.set("street4", new Street("Sunset Boulevard", 1982, 45));
+        
+        
+    }
+    
+    const streetReport = function() {
+        
+        // 0. Create Streets and output report
+        console.log("---STREETS REPORT---")
+        createStreets();
+        
+        // 1. Calculate total and avg lengths
+        const totalLen = totalLength();
+        const avgLen = avgLength();
+        
+        // 2. Output total and avg lengths
+        printTotalLengths(totalLen);
+        printAvgLengths(avgLen);
+        
+        // 3. Output all the street verbosely
+        verboseStreets();
+    }
+    
+    const totalLength = function() {
+        let sum = 0;
+        for(const v of streets.values()) {
+            sum += v.length;
+        }
+        return sum;
+    }
+    
+    const avgLength = function () {
+        let sum = 0;
+        for(const v of streets.values()) {
+            sum += v.length;
+        }
+        return sum / streets.size;
+    }
+    
+    const printTotalLengths = function (totalLength) {
+        console.log(`Our 4 streets have a total length of ${totalLength} km.`);
+    }
+    
+    const printAvgLengths = function(avgLength) {
+        console.log(`With an average length of ${avgLength} km.`)
+    }
+    
+    const verboseStreets = function() {
+        for(const v of streets.values()) {
+            console.log(`${v.name}, built in ${v.buildYear}, is a ${v.getClassification()}.`)
+        }
+    }
+    
+    return {
+        report: streetReport
+    }
+})();
+
+parkCtrl.report();
+streetCtrl.report();
 
 
 

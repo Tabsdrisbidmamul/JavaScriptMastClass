@@ -260,39 +260,39 @@ johnFriendly("night");
 
 var emilyFormal = john.presentation.bind(emily, "formal");
 
-emilyFormal("afternoon");
+emilyFormal("afternoon");*/
 
-
-var years = [1990, 1965, 1937, 2005, 1998];
-
-function arrayCalc(arr, fn) {
-    var arrRes = [];
-    for(var i=0; i< arr.length; i++) {
-        arrRes.push(fn(arr[i]));
-    }
-    return arrRes;
-}
-
-function calculateAge(el) {
-    return 2016 - el;
-}
-
-function isFullAge(limit, el) {
-    return el >= limit;
-}
-
-var ages = arrayCalc(years, calculateAge);
-
-
-var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20));
-console.log(ages);
-console.log(fullJapan);
+//
+//var years = [1990, 1965, 1937, 2005, 1998];
+//
+//function arrayCalc(arr, fn) {
+//    var arrRes = [];
+//    for(var i=0; i< arr.length; i++) {
+//        arrRes.push(fn(arr[i]));
+//    }
+//    return arrRes;
+//}
+//
+//function calculateAge(el) {
+//    return 2016 - el;
+//}
+//
+//function isFullAge(limit, el) {
+//    return el >= limit;
+//}
+//
+//var ages = arrayCalc(years, calculateAge);
+//
+//
+//var fullJapan = arrayCalc(ages, isFullAge.bind(null, 20));
+//console.log(ages);
+//console.log(fullJapan);
 
 // Same as above but placing the binded function into a variable
 //var japanAgeLimit = isFullAge.bind(this, 20);
 //var japanAges = arrayCalc(ages, japanAgeLimit);
 //console.log(ages);
-//console.log(japanAges);*/
+//console.log(japanAges);
 
 
 /*---------------------------------------------------
@@ -324,6 +324,7 @@ Lets build a fun quiz game in the console!
 
 
 
+/*
 (function() {
     var Question = function(question, answerArray, answerPos) {
         this.question = question;
@@ -394,6 +395,7 @@ Lets build a fun quiz game in the console!
         }
     }
 })();
+*/
 
 
 
