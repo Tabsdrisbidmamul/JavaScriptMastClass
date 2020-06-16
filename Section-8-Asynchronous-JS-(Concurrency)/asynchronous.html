@@ -139,12 +139,12 @@
             We use promises to separate them out, which we then can return from one promise a successful result to another promise by chaining them together
             
         */
-        getIDs
-        .then(IDs => {
-            console.log(IDs);
-            // Here we return the ID retrieved from our "hypothetical" AJAX call to the DB
-            return getRecipe(IDs[2]);
-        })
+        // getIDs
+        // .then(IDs => {
+        //     console.log(IDs);
+        //     // Here we return the ID retrieved from our "hypothetical" AJAX (Asynchronous Javascript And XML) call to the DB
+        //     return getRecipe(IDs[2]);
+        // })
         /* 
         
         - This return value here in return getRecipe(IDs[2]) is another Promise Object in which we pass the data retrieved from the getIDs Promise object 
@@ -176,17 +176,141 @@
         By doing so we can use the data retrieved from Promise object, and pass that data into another Promise object to do processing on that retrieved data
         
         */
-        .then(recipeObj => {
-            [recipe, publisher] = recipeObj;
-            console.log(recipe);
-            return getPublisher(publisher);
+        // .then(recipeObj => {
+        //     [recipe, publisher] = recipeObj;
+        //     console.log(recipe);
+        //     return getPublisher(publisher);
+        // })
+        // .then(publisherContent => {
+        //     console.log(publisherContent);
+        // })
+        // .catch(error => {
+        //     console.log("Error!!");
+        // });
+
+
+        /*
+        Link: https://javascript.info/async-await
+        Also saved in the directory
+        
+        Async: Will tell the JS compiler that a function always returns a promise
+        
+        - Other values are wrapped in a resolved promise        
+          automatically.
+
+        - For instance, this function returns a resolved promise  
+          with the result of 1; let’s test it:
+            async function f() {
+                return 1;
+            }
+
+            f().then(alert); // 1
+
+        Await: The keyword await makes JavaScript wait until that promise settles and returns its result.
+
+        - Here’s an example with a promise that resolves in 1 second:
+            async function f() {
+
+                let promise = new Promise((resolve, reject) => {
+                    setTimeout(() => resolve("done!"), 1000)
+                });
+
+                let result = await promise; // wait until the promise resolves (*)
+
+                alert(result); // "done!"
+            }
+
+            f();
+
+        NOTE: We cannot use the await keyword in top-level code, it can only be used within a function that has been made async
+
+        - The async keyword before a function has two effects:
+            1. Makes it always return a promise.
+            2. Allows await to be used in it.
+
+        - The await keyword before a promise makes JavaScript wait until that promise settles, and then:
+            1. If it’s an error, the exception is generated — same as if throw error were called at that very place.
+            2. Otherwise, it returns the result.
+
+        
+        JS runs on a single thread so to have pure asynchronous code we need use the primitive asynchronous code in JavaScript WebAPIs
+
+        This code example shows pure asynchronous code in work
+        
+        setTimeout() is a primitive concurrent code and will sit on the WebAPI waiting for 2 seconds with the callback function 
+        
+        How it Runs?
+        1. we enter func1() - push func1() onto the CallStack
+            a. We then enter console.log(), push that onto the CallStack and execute the code
+            b. console.log() returns and pops off the CallStack
+        
+        2. We call the func2() using the await keyword to consume a promise
+            a. This promise is a timeOut function, so this will copy the callback function (so the contents of the setTimeout function and its code and sit in the webAPI waiting for 2 seconds)
+        
+        3. We reach the next console.log(), however we actually store the line before execution onto in func1() VO (View Object) and pop func1() from the CallStack
+
+        4. The timeout function has finished processing and the callback function is then appended to the messageQueue, as the CallStack is empty we push the callback function onto the CallStack and execute the code
+
+        5. func1() VO is then retrieved and execution of the console.log() happens
+            a. Push console.log() onto the CallStack
+            b. console.log() returns and pop the console.log() from the CallStack
+        
+        6. The program has reached the end and terminates
+
+
+                function func2() {
+                    return new Promise((resolve, reject) => {
+                        setTimeout(() => {
+                            for (let i = 0; i < 10; i++) {
+                                console.log(i);
+                            }
+                            resolve("Promise Returned From func2()");
+                        }, 2000);
+                    });
+                }
+     
+                async function func1() {
+                    console.log("Entered func1()");
+                    let message_from_func2 = await func2();
+                    console.log(message_from_func2);
+                }
+        
+            func1();
+            console.log("This is the last line of the program");
+
+        */
+
+        // async function getRecipesAW() {
+        //     const IDs = await getIDs;
+        //     console.log(IDs);
+
+        //     const [recipe, publisher] = await getRecipe(IDs[2]);
+        //     console.log(recipe);
+
+            
+        //     const recipeFromPublisher = await getPublisher(publisher);
+        //     console.log(recipeFromPublisher);
+
+        //     return recipe;
+
+        // }
+
+        // getRecipesAW().then(result => console.log(`${result} is the best ever`));
+
+        fetch("https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/2487956/")
+        .then(result => {
+            console.log(result);
+            return result.json();
         })
-        .then(publisherContent => {
-            console.log(publisherContent);
+        .then(data => {
+            // console.log(data);
+            const today = data.consolidated_weather[0];
+            console.log(`Temperatures in ${data.title} with a minimum of ${today.min_temp} and a maximum of ${today.max_temp}.`);
         })
         .catch(error => {
-            console.log("Error!!");
+            console.log(error);
         });
+
     </script>
 </body>
 </html>

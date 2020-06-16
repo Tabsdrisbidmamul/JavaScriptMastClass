@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html class="working-hover" lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script>window.currentUser = null;</script><script>window.rateUsdToNative = 1;</script><title itemprop="name">Async/await</title><link href="Async_await_files/styles.css" rel="stylesheet"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimum-scale=1.0"><meta name="apple-mobile-web-app-capable" content="yes"><script>if (window.devicePixelRatio > 1) document.cookie = 'pixelRatio=' + window.devicePixelRatio + ';path=/;expires=Tue, 19 Jan 2038 03:14:07 GMT';</script><link href="Async_await_files/css.css" rel="stylesheet"><link rel="apple-touch-icon-precomposed" href="https://javascript.info/img/favicon/apple-touch-icon-precomposed.png"><link rel="canonical" href="https://javascript.info/async-await"><meta name="msapplication-TileColor" content="#222A2C"><meta name="msapplication-TileImage" content="/img/favicon/tileicon.png"><link rel="icon" href="https://javascript.info/img/favicon/favicon.png"><meta itemprop="image" content="https://javascript.info/img/site_preview_en_512x512.png"><meta property="og:title" content="Async/await"><meta property="og:image" content="https://javascript.info/img/site_preview_en_1200x630.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="fb:admins" content="100001562528165"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Async/await"><meta name="twitter:site" content="@iliakan"><meta name="twitter:creator" content="@iliakan"><meta name="twitter:image" content="https://javascript.info/img/site_preview_en_512x512.png"><link rel="prev" href="https://javascript.info/microtask-queue"><link rel="next" href="https://javascript.info/generators-iterators"><script>window.GA_ID = "UA-2056213-15";</script><script>window.YANDEX_METRIKA_ID = 32184394;</script><script>window.GoogleAnalyticsObject="ga",window.ga=function(){window.ga.q.push(arguments)},window.ga.q=[],window.ga.l=Date.now(),ga("create",GA_ID,"auto"),window.GTM_ID&&ga("require",GTM_ID),window.currentUser?ga("set","&uid",currentUser.id):ga("set","anonymizeIp",!0),window.addEventListener("error",function(e){var r=(e.filename||e.errorUrl)+": "+(e.lineno||e.errorLine),n=e.stack||e.error&&e.error.stack;ga("send","exception",{exDescription:e.message+" "+r+" "+n,exFatal:!0})});</script><script src="Async_await_files/analytics.js" async=""></script><script>ga('send', 'pageview');</script><script>window.metrika={reachGoal:function(){}},window.yandex_metrika_callbacks=[function(){try{window.metrika=new Ya.Metrika({id:YANDEX_METRIKA_ID,webvisor:!0,clickmap:!0,params:{user:window.currentUser&&window.currentUser.id}}),metrika.trackLinks({delay:150}),window.addEventListener("error",function(r){window.metrika.reachGoal("JSERROR",{src:(r.filename||r.errorUrl)+": "+(r.lineno||r.errorLine),stack:r.stack||r.error&&r.error.stack,message:r.message})})}catch(r){}}];</script><script src="Async_await_files/watch.js" async=""></script><script>window.RECAPTCHA_ID = "6LfmLAEVAAAAAJMykMnf7aY8nkyTRmYi2ynx51R1";</script><script src="Async_await_files/init.js"></script><script src="Async_await_files/head.js" defer="defer"></script><style>
+.promise-avatar-example {
+  border-radius: 50%;
+  position: fixed;
+  left: 10px;
+  top: 10px;
+}
+</style>
+<meta property="og:title" content="Async/await"><meta property="og:type" content="article"><script src="Async_await_files/tutorial.js" defer="defer" data-manual="1"></script><script src="Async_await_files/footer.js" defer="defer"></script><script id="codefund-script" type="text/javascript" src="Async_await_files/code_fund_ad-c5122a9eb2cf2a34fc49.js"></script><script src="Async_await_files/embed.js" data-timestamp="1592321889983"></script><link rel="prefetch" as="style" href="Async_await_files/a_data/lounge.css"><link rel="prefetch" as="script" href="Async_await_files/a_data/common.js"><link rel="prefetch" as="script" href="Async_await_files/a_data/lounge.js"><link rel="prefetch" as="script" href="Async_await_files/a_data/config.js"></head><body class=""><script>window.fontTest();</script><span class="font-test" style=""></span><div class="page-wrapper page-wrapper_sidebar_on"><!--[if IE]><div style="color:red;text-align:center">Sorry, Internet Explorer is not supported, please use a newer browser.</div><![endif]--><div class="sitetoolbar sitetoolbar_tutorial"><script>window.langs = [{"code":"am","name":"Armenian"},{"code":"ar","name":"Arabic"},{"code":"az","name":"Azerbaijani"},{"code":"bg","name":"Bulgarian"},{"code":"bn","name":"Bengali"},{"code":"ca","name":"Catalan"},{"code":"cs","name":"Czech"},{"code":"de","name":"German"},{"code":"el","name":"Greek"},{"code":"en","name":"English"},{"code":"es","name":"Spanish"},{"code":"fa","name":"Persian (Farsi)"},{"code":"fr","name":"French"},{"code":"hi","name":"Hindi"},{"code":"hu","name":"Hungarian"},{"code":"id","name":"Indonesian"},{"code":"it","name":"Italian"},{"code":"ja","name":"Japanese"},{"code":"ka","name":"Georgian"},{"code":"km","name":"Central Khmer"},{"code":"ko","name":"Korean"},{"code":"lt","name":"Lithuanian"},{"code":"me","name":"Montenegrin"},{"code":"ml","name":"Malayalam"},{"code":"nl","name":"Dutch"},{"code":"no","name":"Norvegian"},{"code":"pa","name":"Punjabi"},{"code":"pl","name":"Polish"},{"code":"pt","name":"Portuguese"},{"code":"ro","name":"Romanian"},{"code":"ru","name":"Russian"},{"code":"si","name":"Sinhala"},{"code":"sk","name":"Slovak"},{"code":"sq","name":"Albanian"},{"code":"ta","name":"Tamil"},{"code":"te","name":"Telugu"},{"code":"test","name":"Test"},{"code":"th","name":"Thai"},{"code":"tk","name":"Turkmen"},{"code":"tr","name":"Turkish"},{"code":"uk","name":"Ukrainian"},{"code":"uz","name":"Uzbek"},{"code":"vi","name":"Vietnamese"},{"code":"zh-hant","name":"Chinese Traditional"},{"code":"zh","name":"Chinese"}];</script><script>window.lang = "en";</script><script>{let t=navigator.languages||[];t=t.map(t=>t.toLowerCase());let a,o,i=[];for(let a of window.langs)for(let o of t)if(o===a.code||o.startsWith(a.code+"-")){i.push(a);break}if("en"===lang){let t=i.find(t=>"en"!=t.code);t&&"ru"!=t.code&&(a=`\n            According to your browser language headers, you know ${t.name}. Please help to <a href="https://github.com/javascript-tutorial/${t.code}.javascript.info#readme">translate the tutorial</a> into your language!\n            Thank you!\n          `,o="notify-translate-tutorial")}else if("ru"===lang)o="notify-ru-tutorial",a='\n          Новая редакция учебника была недавно переведена с английского.<br>Если что-то не так - пожалуйста, поправьте в <a href="https://github.com/javascript-tutorial/ru.javascript.info">PR на GitHub</a> (ссылка на редактирование слева в сайдбаре статьи).\n          Спасибо!\n        ';else if("tr"==lang)a='The Turkish version is only half-translated yet! Please help us with its translation at <a href="https://github.com/javascript-tutorial/tr.javascript.info">GitHub</a>.',o="notify-tr-tutorial";else{i.find(t=>"en"==t.code)&&(a=`\n            According to your browser headers, you know English. Please help to <a href="https://github.com/javascript-tutorial/${lang}.javascript.info#readme">translate the tutorial</a>.\n            Thank you!\n          `,o="notify-translate-tutorial-local")}if(a){let t=`<div class="notification notification_top notification_info sitetoolbar__notification" style="display:none" id="${o}">\n          <div class="notification__content">${a}</div>\n          <button class="notification__close" title="Close"></button>\n        </div>`;document.write(t),showTopNotification()}}</script><div class="sitetoolbar__content"><div class="sitetoolbar__lang-switcher"><button class="sitetoolbar__dropdown-button" data-dropdown-toggler="">EN</button><div class="sitetoolbar__dropdown-wrap"><div class="sitetoolbar__dropdown-body"><div class="sitetoolbar__lang-switcher-body"><div class="supported-langs supported-langs_toolbar"><div class="supported-langs__container"><ul class="supported-langs__list" style="height:200px"><li class="supported-langs__item supported-langs__item_current"><a class="supported-langs__link" href="https://javascript.info/async-await"><span class="supported-langs__brief">EN</span><span class="supported-langs__title">English</span></a></li><li class="supported-langs__item"><a class="supported-langs__link" href="https://ja.javascript.info/async-await"><span class="supported-langs__brief">JA</span><span class="supported-langs__title">日本語</span></a></li><li class="supported-langs__item"><a class="supported-langs__link" href="https://ko.javascript.info/async-await"><span class="supported-langs__brief">KO</span><span class="supported-langs__title">한국어</span></a></li><li class="supported-langs__item"><a class="supported-langs__link" href="https://learn.javascript.ru/async-await"><span class="supported-langs__brief">RU</span><span class="supported-langs__title">Русский</span></a></li><li class="supported-langs__item"><a class="supported-langs__link" href="https://tr.javascript.info/async-await"><span class="supported-langs__brief">TR</span><span class="supported-langs__title">Türkçe</span></a></li><li class="supported-langs__item"><a class="supported-langs__link" href="https://zh.javascript.info/async-await"><span class="supported-langs__brief">ZH</span><span class="supported-langs__title">简体中文</span></a></li></ul></div><div class="supported-langs__text"><p>We want to make this open-source project available for people all around the world.</p> <p><a href="https://javascript.info/translate">Help to translate</a> the content of this tutorial to your language!</p>
+</div></div></div></div></div></div><div class="sitetoolbar__logo-wrap"><a class="sitetoolbar__link sitetoolbar__link_logo" href="https://javascript.info/"><object type="image/svg+xml" class="sitetoolbar__logo sitetoolbar__logo_normal" style="left: 0px; top: 0px; position: absolute;" data="Async_await_files/sitetoolbar__logo_en.svg"></object><img class="sitetoolbar__logo sitetoolbar__logo_normal" src="Async_await_files/sitetoolbar__logo_en.svg" alt="" role="presentation" style="visibility: hidden;" width="200"><object type="image/svg+xml" class="sitetoolbar__logo sitetoolbar__logo_small" style="left: 0px; top: 0px; position: absolute;" data="Async_await_files/sitetoolbar__logo_small_en.svg"></object><img class="sitetoolbar__logo sitetoolbar__logo_small" src="Async_await_files/sitetoolbar__logo_small_en.svg" alt="" role="presentation" style="visibility: hidden;" width="70"><script>Array.prototype.forEach.call(document.querySelectorAll("img.sitetoolbar__logo"),function(e){let t=document.createElement("object");t.type="image/svg+xml",t.className=e.className,t.style.cssText="left:0;top:0;position:absolute",t.onload=function(){t.onload=null,e.style.visibility="hidden"},t.data=e.src,e.parentNode.insertBefore(t,e)});</script></a></div><div class="sitetoolbar__nav-toggle-wrap"><button class="sitetoolbar__nav-toggle" type="button"></button></div><nav class="sitetoolbar__sections"><ul class="sitetoolbar__sections-list"></ul></nav><div class="sitetoolbar__book-wrap"><a class="buy-book-button" href="https://javascript.info/ebook"><span class="buy-book-button__extra-text">Buy</span>EPUB/PDF</a></div><div class="sitetoolbar__login-wrap"><button class="sitetoolbar__login" data-action-login=""></button></div><div class="sitetoolbar__search-wrap"><div class="sitetoolbar__search-content"><form class="sitetoolbar__search" method="GET" action="/search"><button class="sitetoolbar__search-toggle" type="button"></button><div class="sitetoolbar__search-input"><div class="text-input"><input class="text-input__control" name="query" placeholder="Search on Javascript.info" required="required" type="text"></div><button class="sitetoolbar__find" type="submit">Search</button></div></form></div></div></div><div class="tablet-menu"><div class="tablet-menu__line"><div class="tablet-menu__content"><form class="tablet-menu-search" action="/search/"><input class="tablet-menu-search__input" type="search" name="query" placeholder="Search in the tutorial" required="required"><button class="tablet-menu-search__button" type="submit" name="type" value="articles">Search</button></form></div></div><div class="tablet-menu__line"><div class="tablet-menu__content"><a class="map" href="https://javascript.info/tutorial/map" data-action="tutorial-map"><span class="map__text">Tutorial map</span></a></div></div><div class="tablet-menu__line"><div class="tablet-menu__content"><div class="share-icons"><span class="share-icons__title">Share</span><a class="share share_tw" href="https://twitter.com/share?url=https%3A%2F%2Fjavascript.info%2Fasync-await" rel="nofollow"></a><a class="share share_fb" href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p%5Burl%5D=https%3A%2F%2Fjavascript.info%2Fasync-await" rel="nofollow"></a></div></div></div><div class="tablet-menu__line"><div class="tablet-menu__content"><select class="tablet-menu__nav input-select input-select input-select_small" onchange="if(this.value) window.location.href=this.value"><option value="https://javascript.info/async-await" selected="selected">English</option><option value="https://ja.javascript.info/async-await">日本語</option><option value="https://ko.javascript.info/async-await">한국어</option><option value="https://learn.javascript.ru/async-await">Русский</option><option value="https://tr.javascript.info/async-await">Türkçe</option><option value="https://zh.javascript.info/async-await">简体中文</option></select></div></div></div><progress class="tutorial-progress" data-sticky="" value="82" max="92" data-tooltip="Lesson 82 of 92" style=""></progress></div><div class="page page_sidebar_on page_inner_padding page_sidebar-animation-on"><script>if(localStorage.noSidebar){document.querySelector(".page").classList.remove("page_sidebar_on");var pageWrapper=document.querySelector(".page-wrapper");pageWrapper&&pageWrapper.classList.remove("page-wrapper_sidebar_on")}setTimeout(function(){document.querySelector(".page").classList.add("page_sidebar-animation-on")},0);</script><div class="page__inner"><main class="main main_width-limit"><header class="main__header"><div class="main__header-inner"><div class="main__header-group"><ol class="breadcrumbs"><li class="breadcrumbs__item breadcrumbs__item_home"><a class="breadcrumbs__link" href="https://javascript.info/"><span class="breadcrumbs__hidden-text">Tutorial</span></a></li><li class="breadcrumbs__item" id="breadcrumb-1"><a class="breadcrumbs__link" href="https://javascript.info/js"><span>The JavaScript language</span></a></li><li class="breadcrumbs__item" id="breadcrumb-2"><a class="breadcrumbs__link" href="https://javascript.info/async"><span>Promises, async/await</span></a></li><script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Tutorial","item":"https://javascript.info/"},{"@type":"ListItem","position":2,"name":"The JavaScript language","item":"https://javascript.info/js"},{"@type":"ListItem","position":3,"name":"Promises, async/await","item":"https://javascript.info/async"}]}</script></ol><div class="updated-at" data-tooltip="Last updated at 3rd February 2020"><div class="updated-at__content">3rd February 2020</div></div></div><h1 class="main__header-title">Async/await</h1></div></header><div class="content"><article class="formatted" itemscope="" itemtype="http://schema.org/TechArticle"><meta itemprop="name" content="Async/await"><div itemprop="author" itemscope="" itemtype="http://schema.org/Person"><meta itemprop="email" content="iliakan@gmail.com"><meta itemprop="name" content="Ilya Kantor"></div><div itemprop="articleBody"><p>There’s
+ a special syntax to work with promises in a more comfortable fashion, 
+called “async/await”. It’s surprisingly easy to understand and use.</p>
+<h2><a class="main__anchor" name="async-functions" href="#async-functions">Async functions</a></h2><p>Let’s start with the <code>async</code> keyword. It can be placed before a function, like this:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">return</code> <code class="token number">1</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code></code><span class="line-numbers-rows"><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>The word “async” before a function means one simple 
+thing: a function always returns a promise. Other values are wrapped in a
+ resolved promise automatically.</p>
+<p>For instance, this function returns a resolved promise with the result of <code>1</code>; let’s test it:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">return</code> <code class="token number">1</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">.</code><code class="token function">then</code><code class="token punctuation">(</code>alert<code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// 1</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>…We could explicitly return a promise, which would be the same:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">return</code> Promise<code class="token punctuation">.</code><code class="token function">resolve</code><code class="token punctuation">(</code><code class="token number">1</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">.</code><code class="token function">then</code><code class="token punctuation">(</code>alert<code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// 1</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>So, <code>async</code> ensures that the function returns a
+ promise, and wraps non-promises in it. Simple enough, right? But not 
+only that. There’s another keyword, <code>await</code>, that works only inside <code>async</code> functions, and it’s pretty cool.</p>
+<h2><a class="main__anchor" name="await" href="#await">Await</a></h2><p>The syntax:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token comment">// works only inside async functions</code>
+<code class="token keyword">let</code> value <code class="token operator">=</code> <code class="token keyword">await</code> promise<code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>The keyword <code>await</code> makes JavaScript wait until that promise settles and returns its result.</p>
+<p>Here’s an example with a promise that resolves in 1 second:</p>
+<div data-trusted="1" class="code-example" data-highlight="[{&quot;start&quot;:6,&quot;end&quot;:6}]" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class="block-highlight" data-start="6">
+
+
+
+
+
+<code class="mask">
+</code></code><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+
+  <code class="token keyword">let</code> promise <code class="token operator">=</code> <code class="token keyword">new</code> <code class="token class-name">Promise</code><code class="token punctuation">(</code><code class="token punctuation">(</code><code class="token parameter">resolve<code class="token punctuation">,</code> reject</code><code class="token punctuation">)</code> <code class="token operator">=&gt;</code> <code class="token punctuation">{</code>
+    <code class="token function">setTimeout</code><code class="token punctuation">(</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token operator">=&gt;</code> <code class="token function">resolve</code><code class="token punctuation">(</code><code class="token string">"done!"</code><code class="token punctuation">)</code><code class="token punctuation">,</code> <code class="token number">1000</code><code class="token punctuation">)</code>
+  <code class="token punctuation">}</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+  <code class="token keyword">let</code> result <code class="token operator">=</code> <code class="token keyword">await</code> promise<code class="token punctuation">;</code> <code class="token comment">// wait until the promise resolves (*)</code>
+
+  <code class="token function">alert</code><code class="token punctuation">(</code>result<code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// "done!"</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>The function execution “pauses” at the line <code>(*)</code> and resumes when the promise settles, with <code>result</code> becoming its result. So the code above shows “done!” in one second.</p>
+<p>Let’s emphasize: <code>await</code> literally makes JavaScript wait 
+until the promise settles, and then go on with the result. That doesn’t 
+cost any CPU resources, because the engine can do other jobs in the 
+meantime: execute other scripts, handle events, etc.</p>
+<p>It’s just a more elegant syntax of getting the promise result than <code>promise.then</code>, easier to read and write.</p>
+<div class="important important_warn">
+            <div class="important__header"><span class="important__type">Can’t use <code>await</code> in regular functions</span></div>
+            <div class="important__content"><p>If we try to use <code>await</code> in non-async function, there would be a syntax error:</p>
+<div data-trusted="1" class="code-example" data-highlight="[{&quot;start&quot;:2,&quot;end&quot;:2}]" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class="block-highlight" data-start="2">
+
+<code class="mask">
+</code></code><code class=" language-javascript"><code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">let</code> promise <code class="token operator">=</code> Promise<code class="token punctuation">.</code><code class="token function">resolve</code><code class="token punctuation">(</code><code class="token number">1</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token keyword">let</code> result <code class="token operator">=</code> <code class="token keyword">await</code> promise<code class="token punctuation">;</code> <code class="token comment">// Syntax error</code>
+<code class="token punctuation">}</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>We will get this error if we do not put <code>async</code> before a function. As said, <code>await</code> only works inside an <code>async function</code>.</p>
+</div></div>
+<p>Let’s take the <code>showAvatar()</code> example from the chapter <a href="https://javascript.info/promise-chaining">Promises chaining</a> and rewrite it using <code>async/await</code>:</p>
+<ol>
+<li>We’ll need to replace <code>.then</code> calls with <code>await</code>.</li>
+<li>Also we should make the function <code>async</code> for them to work.</li>
+</ol>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">showAvatar</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+
+  <code class="token comment">// read our JSON</code>
+  <code class="token keyword">let</code> response <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">fetch</code><code class="token punctuation">(</code><code class="token string">'/article/promise-chaining/user.json'</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token keyword">let</code> user <code class="token operator">=</code> <code class="token keyword">await</code> response<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+  <code class="token comment">// read github user</code>
+  <code class="token keyword">let</code> githubResponse <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">fetch</code><code class="token punctuation">(</code><code class="token template-string"><code class="token string">`https://api.github.com/users/</code><code class="token interpolation"><code class="token interpolation-punctuation punctuation">${</code>user<code class="token punctuation">.</code>name<code class="token interpolation-punctuation punctuation">}</code></code><code class="token string">`</code></code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token keyword">let</code> githubUser <code class="token operator">=</code> <code class="token keyword">await</code> githubResponse<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+  <code class="token comment">// show the avatar</code>
+  <code class="token keyword">let</code> img <code class="token operator">=</code> document<code class="token punctuation">.</code><code class="token function">createElement</code><code class="token punctuation">(</code><code class="token string">'img'</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  img<code class="token punctuation">.</code>src <code class="token operator">=</code> githubUser<code class="token punctuation">.</code>avatar_url<code class="token punctuation">;</code>
+  img<code class="token punctuation">.</code>className <code class="token operator">=</code> <code class="token string">"promise-avatar-example"</code><code class="token punctuation">;</code>
+  document<code class="token punctuation">.</code>body<code class="token punctuation">.</code><code class="token function">append</code><code class="token punctuation">(</code>img<code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+  <code class="token comment">// wait 3 seconds</code>
+  <code class="token keyword">await</code> <code class="token keyword">new</code> <code class="token class-name">Promise</code><code class="token punctuation">(</code><code class="token punctuation">(</code><code class="token parameter">resolve<code class="token punctuation">,</code> reject</code><code class="token punctuation">)</code> <code class="token operator">=&gt;</code> <code class="token function">setTimeout</code><code class="token punctuation">(</code>resolve<code class="token punctuation">,</code> <code class="token number">3000</code><code class="token punctuation">)</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+  img<code class="token punctuation">.</code><code class="token function">remove</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+  <code class="token keyword">return</code> githubUser<code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">showAvatar</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>Pretty clean and easy to read, right? Much better than before.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type"><code>await</code> won’t work in the top-level code</span></div>
+            <div class="important__content"><p>People who are just starting to use <code>await</code> tend to forget the fact that we can’t use <code>await</code> in top-level code. For example, this will not work:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token comment">// syntax error in top-level code</code>
+<code class="token keyword">let</code> response <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">fetch</code><code class="token punctuation">(</code><code class="token string">'/article/promise-chaining/user.json'</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+<code class="token keyword">let</code> user <code class="token operator">=</code> <code class="token keyword">await</code> response<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>But we can wrap it into an anonymous async function, like this:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token punctuation">(</code><code class="token keyword">async</code> <code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token operator">=&gt;</code> <code class="token punctuation">{</code>
+  <code class="token keyword">let</code> response <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">fetch</code><code class="token punctuation">(</code><code class="token string">'/article/promise-chaining/user.json'</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token keyword">let</code> user <code class="token operator">=</code> <code class="token keyword">await</code> response<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token operator">...</code>
+<code class="token punctuation">}</code><code class="token punctuation">)</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div></div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type"><code>await</code> accepts “thenables”</span></div>
+            <div class="important__content"><p>Like <code>promise.then</code>, <code>await</code> allows us to use thenable objects (those with a callable <code>then</code> method). The idea is that a third-party object may not be a promise, but promise-compatible: if it supports <code>.then</code>, that’s enough to use it with <code>await</code>.</p>
+<p>Here’s a demo <code>Thenable</code> class; the <code>await</code> below accepts its instances:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">class</code> <code class="token class-name">Thenable</code> <code class="token punctuation">{</code>
+  <code class="token function">constructor</code><code class="token punctuation">(</code><code class="token parameter">num</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token keyword">this</code><code class="token punctuation">.</code>num <code class="token operator">=</code> num<code class="token punctuation">;</code>
+  <code class="token punctuation">}</code>
+  <code class="token function">then</code><code class="token punctuation">(</code><code class="token parameter">resolve<code class="token punctuation">,</code> reject</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token function">alert</code><code class="token punctuation">(</code>resolve<code class="token punctuation">)</code><code class="token punctuation">;</code>
+    <code class="token comment">// resolve with this.num*2 after 1000ms</code>
+    <code class="token function">setTimeout</code><code class="token punctuation">(</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token operator">=&gt;</code> <code class="token function">resolve</code><code class="token punctuation">(</code><code class="token keyword">this</code><code class="token punctuation">.</code>num <code class="token operator">*</code> <code class="token number">2</code><code class="token punctuation">)</code><code class="token punctuation">,</code> <code class="token number">1000</code><code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// (*)</code>
+  <code class="token punctuation">}</code>
+<code class="token punctuation">}</code><code class="token punctuation">;</code>
+
+<code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token comment">// waits for 1 second, then result becomes 2</code>
+  <code class="token keyword">let</code> result <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token keyword">new</code> <code class="token class-name">Thenable</code><code class="token punctuation">(</code><code class="token number">1</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token function">alert</code><code class="token punctuation">(</code>result<code class="token punctuation">)</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>If <code>await</code> gets a non-promise object with <code>.then</code>, it calls that method providing the built-in functions <code>resolve</code> and <code>reject</code> as arguments (just as it does for a regular <code>Promise</code> executor). Then <code>await</code> waits until one of them is called (in the example above it happens in the line <code>(*)</code>) and then proceeds with the result.</p>
+</div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type">Async class methods</span></div>
+            <div class="important__content"><p>To declare an async class method, just prepend it with <code>async</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight="[{&quot;start&quot;:1,&quot;end&quot;:1}]" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class="block-highlight" data-start="1">
+<code class="mask">
+</code></code><code class=" language-javascript"><code class="token keyword">class</code> <code class="token class-name">Waiter</code> <code class="token punctuation">{</code>
+  <code class="token keyword">async</code> <code class="token function">wait</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token keyword">return</code> <code class="token keyword">await</code> Promise<code class="token punctuation">.</code><code class="token function">resolve</code><code class="token punctuation">(</code><code class="token number">1</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token punctuation">}</code>
+<code class="token punctuation">}</code>
+
+<code class="token keyword">new</code> <code class="token class-name">Waiter</code><code class="token punctuation">(</code><code class="token punctuation">)</code>
+  <code class="token punctuation">.</code><code class="token function">wait</code><code class="token punctuation">(</code><code class="token punctuation">)</code>
+  <code class="token punctuation">.</code><code class="token function">then</code><code class="token punctuation">(</code>alert<code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// 1</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>The meaning is the same: it ensures that the returned value is a promise and enables <code>await</code>.</p>
+</div></div>
+<h2><a class="main__anchor" name="error-handling" href="#error-handling">Error handling</a></h2><p>If a promise resolves normally, then <code>await promise</code> returns the result. But in the case of a rejection, it throws the error, just as if there were a <code>throw</code> statement at that line.</p>
+<p>This code:</p>
+<div data-trusted="1" class="code-example" data-highlight="[{&quot;start&quot;:1,&quot;end&quot;:1}]" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class="block-highlight" data-start="1">
+<code class="mask">
+</code></code><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">await</code> Promise<code class="token punctuation">.</code><code class="token function">reject</code><code class="token punctuation">(</code><code class="token keyword">new</code> <code class="token class-name">Error</code><code class="token punctuation">(</code><code class="token string">"Whoops!"</code><code class="token punctuation">)</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code></code><span class="line-numbers-rows"><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>…is the same as this:</p>
+<div data-trusted="1" class="code-example" data-highlight="[{&quot;start&quot;:1,&quot;end&quot;:1}]" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class="block-highlight" data-start="1">
+<code class="mask">
+</code></code><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">throw</code> <code class="token keyword">new</code> <code class="token class-name">Error</code><code class="token punctuation">(</code><code class="token string">"Whoops!"</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code></code><span class="line-numbers-rows"><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>In real situations, the promise may take some time before it rejects. In that case there will be a delay before <code>await</code> throws an error.</p>
+<p>We can catch that error using <code>try..catch</code>, the same way as a regular <code>throw</code>:</p>
+<div data-trusted="1" class="code-example" data-highlight="[{&quot;start&quot;:5,&quot;end&quot;:5}]" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class="block-highlight" data-start="5">
+
+
+
+
+<code class="mask">
+</code></code><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+
+  <code class="token keyword">try</code> <code class="token punctuation">{</code>
+    <code class="token keyword">let</code> response <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">fetch</code><code class="token punctuation">(</code><code class="token string">'http://no-such-url'</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token punctuation">}</code> <code class="token keyword">catch</code><code class="token punctuation">(</code>err<code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token function">alert</code><code class="token punctuation">(</code>err<code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// TypeError: failed to fetch</code>
+  <code class="token punctuation">}</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>In the case of an error, the control jumps to the <code>catch</code> block. We can also wrap multiple lines:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+
+  <code class="token keyword">try</code> <code class="token punctuation">{</code>
+    <code class="token keyword">let</code> response <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">fetch</code><code class="token punctuation">(</code><code class="token string">'/no-user-here'</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+    <code class="token keyword">let</code> user <code class="token operator">=</code> <code class="token keyword">await</code> response<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token punctuation">}</code> <code class="token keyword">catch</code><code class="token punctuation">(</code>err<code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token comment">// catches errors both in fetch and response.json</code>
+    <code class="token function">alert</code><code class="token punctuation">(</code>err<code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token punctuation">}</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>If we don’t have <code>try..catch</code>, then the promise generated by the call of the async function <code>f()</code> becomes rejected. We can append <code>.catch</code> to handle it:</p>
+<div data-trusted="1" class="code-example" data-highlight="[{&quot;start&quot;:5,&quot;end&quot;:5}]" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class="block-highlight" data-start="5">
+
+
+
+
+<code class="mask">
+</code></code><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">let</code> response <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">fetch</code><code class="token punctuation">(</code><code class="token string">'http://no-such-url'</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token comment">// f() becomes a rejected promise</code>
+<code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">.</code><code class="token function">catch</code><code class="token punctuation">(</code>alert<code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// TypeError: failed to fetch // (*)</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>If we forget to add <code>.catch</code> there, then we get an unhandled promise error (viewable in the console). We can catch such errors using a global <code>unhandledrejection</code> event handler as described in the chapter <a href="https://javascript.info/promise-error-handling">Error handling with promises</a>.</p>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type"><code>async/await</code> and <code>promise.then/catch</code></span></div>
+            <div class="important__content"><p>When we use <code>async/await</code>, we rarely need <code>.then</code>, because <code>await</code> handles the waiting for us. And we can use a regular <code>try..catch</code> instead of <code>.catch</code>. That’s usually (but not always) more convenient.</p>
+<p>But at the top level of the code, when we’re outside any <code>async</code> function, we’re syntactically unable to use <code>await</code>, so it’s a normal practice to add <code>.then/catch</code> to handle the final result or falling-through error, like in the line <code>(*)</code> of the example above.</p>
+</div></div>
+<div class="important important_smart">
+            <div class="important__header"><span class="important__type"><code>async/await</code> works well with <code>Promise.all</code></span></div>
+            <div class="important__content"><p>When we need to wait for multiple promises, we can wrap them in <code>Promise.all</code> and then <code>await</code>:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token comment">// wait for the array of results</code>
+<code class="token keyword">let</code> results <code class="token operator">=</code> <code class="token keyword">await</code> Promise<code class="token punctuation">.</code><code class="token function">all</code><code class="token punctuation">(</code><code class="token punctuation">[</code>
+  <code class="token function">fetch</code><code class="token punctuation">(</code>url1<code class="token punctuation">)</code><code class="token punctuation">,</code>
+  <code class="token function">fetch</code><code class="token punctuation">(</code>url2<code class="token punctuation">)</code><code class="token punctuation">,</code>
+  <code class="token operator">...</code>
+<code class="token punctuation">]</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>In the case of an error, it propagates as usual, from the failed promise to <code>Promise.all</code>, and then becomes an exception that we can catch using <code>try..catch</code> around the call.</p>
+</div></div>
+<h2><a class="main__anchor" name="summary" href="#summary">Summary</a></h2><p>The <code>async</code> keyword before a function has two effects:</p>
+<ol>
+<li>Makes it always return a promise.</li>
+<li>Allows <code>await</code> to be used in it.</li>
+</ol>
+<p>The <code>await</code> keyword before a promise makes JavaScript wait until that promise settles, and then:</p>
+<ol>
+<li>If it’s an error, the exception is generated — same as if <code>throw error</code> were called at that very place.</li>
+<li>Otherwise, it returns the result.</li>
+</ol>
+<p>Together they provide a great framework to write asynchronous code that is easy to both read and write.</p>
+<p>With <code>async/await</code> we rarely need to write <code>promise.then/catch</code>,
+ but we still shouldn’t forget that they are based on promises, because 
+sometimes (e.g. in the outermost scope) we have to use these methods. 
+Also <code>Promise.all</code> is nice when we are waiting for many tasks simultaneously.</p>
+</div></article><div class="tasks formatted"><h2 class="tasks__title" id="tasks"><a class="tasks__title-anchor main__anchor main__anchor main__anchor_noicon" href="#tasks">Tasks</a></h2><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a class="main__anchor" href="#rewrite-using-async-await" name="rewrite-using-async-await">Rewrite using async/await</a></h3><a class="task__open-link" href="https://javascript.info/task/rewrite-async" target="_blank"></a></div><div class="task__header-note"></div><div class="task__content"><p>Rewrite this example code from the chapter <a href="https://javascript.info/promise-chaining">Promises chaining</a> using <code>async/await</code> instead of <code>.then/catch</code>:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">function</code> <code class="token function">loadJson</code><code class="token punctuation">(</code><code class="token parameter">url</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">return</code> <code class="token function">fetch</code><code class="token punctuation">(</code>url<code class="token punctuation">)</code>
+    <code class="token punctuation">.</code><code class="token function">then</code><code class="token punctuation">(</code><code class="token parameter">response</code> <code class="token operator">=&gt;</code> <code class="token punctuation">{</code>
+      <code class="token keyword">if</code> <code class="token punctuation">(</code>response<code class="token punctuation">.</code>status <code class="token operator">==</code> <code class="token number">200</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+        <code class="token keyword">return</code> response<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+      <code class="token punctuation">}</code> <code class="token keyword">else</code> <code class="token punctuation">{</code>
+        <code class="token keyword">throw</code> <code class="token keyword">new</code> <code class="token class-name">Error</code><code class="token punctuation">(</code>response<code class="token punctuation">.</code>status<code class="token punctuation">)</code><code class="token punctuation">;</code>
+      <code class="token punctuation">}</code>
+    <code class="token punctuation">}</code><code class="token punctuation">)</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">loadJson</code><code class="token punctuation">(</code><code class="token string">'no-such-user.json'</code><code class="token punctuation">)</code>
+  <code class="token punctuation">.</code><code class="token function">catch</code><code class="token punctuation">(</code>alert<code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// Error: 404</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><button class="task__solution" type="button">solution</button><div class="task__answer"><div class="task__answer-content"><p>The notes are below the code:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">loadJson</code><code class="token punctuation">(</code><code class="token parameter">url</code><code class="token punctuation">)</code> <code class="token punctuation">{</code> <code class="token comment">// (1)</code>
+  <code class="token keyword">let</code> response <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">fetch</code><code class="token punctuation">(</code>url<code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// (2)</code>
+
+  <code class="token keyword">if</code> <code class="token punctuation">(</code>response<code class="token punctuation">.</code>status <code class="token operator">==</code> <code class="token number">200</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token keyword">let</code> json <code class="token operator">=</code> <code class="token keyword">await</code> response<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// (3)</code>
+    <code class="token keyword">return</code> json<code class="token punctuation">;</code>
+  <code class="token punctuation">}</code>
+
+  <code class="token keyword">throw</code> <code class="token keyword">new</code> <code class="token class-name">Error</code><code class="token punctuation">(</code>response<code class="token punctuation">.</code>status<code class="token punctuation">)</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">loadJson</code><code class="token punctuation">(</code><code class="token string">'no-such-user.json'</code><code class="token punctuation">)</code>
+  <code class="token punctuation">.</code><code class="token function">catch</code><code class="token punctuation">(</code>alert<code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// Error: 404 (4)</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>Notes:</p>
+<ol>
+<li>
+<p>The function <code>loadJson</code> becomes <code>async</code>.</p>
+</li>
+<li>
+<p>All <code>.then</code> inside are replaced with <code>await</code>.</p>
+</li>
+<li>
+<p>We can <code>return response.json()</code> instead of awaiting for it, like this:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">if</code> <code class="token punctuation">(</code>response<code class="token punctuation">.</code>status <code class="token operator">==</code> <code class="token number">200</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">return</code> response<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code> <code class="token comment">// (3)</code>
+<code class="token punctuation">}</code></code><span class="line-numbers-rows"><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>Then the outer code would have to <code>await</code> for that promise to resolve. In our case it doesn’t matter.</p>
+</li>
+<li>
+<p>The error thrown from <code>loadJson</code> is handled by <code>.catch</code>. We can’t use <code>await loadJson(…)</code> there, because we’re not in an <code>async</code> function.</p>
+</li>
+</ol>
+</div><button class="close-button task__answer-close" type="button" title="close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a class="main__anchor" href="#rewrite-rethrow-with-async-await" name="rewrite-rethrow-with-async-await">Rewrite "rethrow" with async/await</a></h3><a class="task__open-link" href="https://javascript.info/task/rewrite-async-2" target="_blank"></a></div><div class="task__header-note"></div><div class="task__content"><p>Below you can find the “rethrow” example from the chapter <a href="https://javascript.info/promise-chaining">Promises chaining</a>. Rewrite it using <code>async/await</code> instead of <code>.then/catch</code>.</p>
+<p>And get rid of the recursion in favour of a loop in <code>demoGithubUser</code>: with <code>async/await</code> that becomes easy to do.</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">class</code> <code class="token class-name">HttpError</code> <code class="token keyword">extends</code> <code class="token class-name">Error</code> <code class="token punctuation">{</code>
+  <code class="token function">constructor</code><code class="token punctuation">(</code><code class="token parameter">response</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token keyword">super</code><code class="token punctuation">(</code><code class="token template-string"><code class="token string">`</code><code class="token interpolation"><code class="token interpolation-punctuation punctuation">${</code>response<code class="token punctuation">.</code>status<code class="token interpolation-punctuation punctuation">}</code></code><code class="token string"> for </code><code class="token interpolation"><code class="token interpolation-punctuation punctuation">${</code>response<code class="token punctuation">.</code>url<code class="token interpolation-punctuation punctuation">}</code></code><code class="token string">`</code></code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+    <code class="token keyword">this</code><code class="token punctuation">.</code>name <code class="token operator">=</code> <code class="token string">'HttpError'</code><code class="token punctuation">;</code>
+    <code class="token keyword">this</code><code class="token punctuation">.</code>response <code class="token operator">=</code> response<code class="token punctuation">;</code>
+  <code class="token punctuation">}</code>
+<code class="token punctuation">}</code>
+
+<code class="token keyword">function</code> <code class="token function">loadJson</code><code class="token punctuation">(</code><code class="token parameter">url</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">return</code> <code class="token function">fetch</code><code class="token punctuation">(</code>url<code class="token punctuation">)</code>
+    <code class="token punctuation">.</code><code class="token function">then</code><code class="token punctuation">(</code><code class="token parameter">response</code> <code class="token operator">=&gt;</code> <code class="token punctuation">{</code>
+      <code class="token keyword">if</code> <code class="token punctuation">(</code>response<code class="token punctuation">.</code>status <code class="token operator">==</code> <code class="token number">200</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+        <code class="token keyword">return</code> response<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+      <code class="token punctuation">}</code> <code class="token keyword">else</code> <code class="token punctuation">{</code>
+        <code class="token keyword">throw</code> <code class="token keyword">new</code> <code class="token class-name">HttpError</code><code class="token punctuation">(</code>response<code class="token punctuation">)</code><code class="token punctuation">;</code>
+      <code class="token punctuation">}</code>
+    <code class="token punctuation">}</code><code class="token punctuation">)</code>
+<code class="token punctuation">}</code>
+
+<code class="token comment">// Ask for a user name until github returns a valid user</code>
+<code class="token keyword">function</code> <code class="token function">demoGithubUser</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">let</code> name <code class="token operator">=</code> <code class="token function">prompt</code><code class="token punctuation">(</code><code class="token string">"Enter a name?"</code><code class="token punctuation">,</code> <code class="token string">"iliakan"</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+  <code class="token keyword">return</code> <code class="token function">loadJson</code><code class="token punctuation">(</code><code class="token template-string"><code class="token string">`https://api.github.com/users/</code><code class="token interpolation"><code class="token interpolation-punctuation punctuation">${</code>name<code class="token interpolation-punctuation punctuation">}</code></code><code class="token string">`</code></code><code class="token punctuation">)</code>
+    <code class="token punctuation">.</code><code class="token function">then</code><code class="token punctuation">(</code><code class="token parameter">user</code> <code class="token operator">=&gt;</code> <code class="token punctuation">{</code>
+      <code class="token function">alert</code><code class="token punctuation">(</code><code class="token template-string"><code class="token string">`Full name: </code><code class="token interpolation"><code class="token interpolation-punctuation punctuation">${</code>user<code class="token punctuation">.</code>name<code class="token interpolation-punctuation punctuation">}</code></code><code class="token string">.`</code></code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+      <code class="token keyword">return</code> user<code class="token punctuation">;</code>
+    <code class="token punctuation">}</code><code class="token punctuation">)</code>
+    <code class="token punctuation">.</code><code class="token function">catch</code><code class="token punctuation">(</code><code class="token parameter">err</code> <code class="token operator">=&gt;</code> <code class="token punctuation">{</code>
+      <code class="token keyword">if</code> <code class="token punctuation">(</code>err <code class="token keyword">instanceof</code> <code class="token class-name">HttpError</code> <code class="token operator">&amp;&amp;</code> err<code class="token punctuation">.</code>response<code class="token punctuation">.</code>status <code class="token operator">==</code> <code class="token number">404</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+        <code class="token function">alert</code><code class="token punctuation">(</code><code class="token string">"No such user, please reenter."</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+        <code class="token keyword">return</code> <code class="token function">demoGithubUser</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+      <code class="token punctuation">}</code> <code class="token keyword">else</code> <code class="token punctuation">{</code>
+        <code class="token keyword">throw</code> err<code class="token punctuation">;</code>
+      <code class="token punctuation">}</code>
+    <code class="token punctuation">}</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">demoGithubUser</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><button class="task__solution" type="button">solution</button><div class="task__answer"><div class="task__answer-content"><p>There are no tricks here. Just replace <code>.catch</code> with <code>try...catch</code> inside <code>demoGithubUser</code> and add <code>async/await</code> where needed:</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">class</code> <code class="token class-name">HttpError</code> <code class="token keyword">extends</code> <code class="token class-name">Error</code> <code class="token punctuation">{</code>
+  <code class="token function">constructor</code><code class="token punctuation">(</code><code class="token parameter">response</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token keyword">super</code><code class="token punctuation">(</code><code class="token template-string"><code class="token string">`</code><code class="token interpolation"><code class="token interpolation-punctuation punctuation">${</code>response<code class="token punctuation">.</code>status<code class="token interpolation-punctuation punctuation">}</code></code><code class="token string"> for </code><code class="token interpolation"><code class="token interpolation-punctuation punctuation">${</code>response<code class="token punctuation">.</code>url<code class="token interpolation-punctuation punctuation">}</code></code><code class="token string">`</code></code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+    <code class="token keyword">this</code><code class="token punctuation">.</code>name <code class="token operator">=</code> <code class="token string">'HttpError'</code><code class="token punctuation">;</code>
+    <code class="token keyword">this</code><code class="token punctuation">.</code>response <code class="token operator">=</code> response<code class="token punctuation">;</code>
+  <code class="token punctuation">}</code>
+<code class="token punctuation">}</code>
+
+<code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">loadJson</code><code class="token punctuation">(</code><code class="token parameter">url</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">let</code> response <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">fetch</code><code class="token punctuation">(</code>url<code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token keyword">if</code> <code class="token punctuation">(</code>response<code class="token punctuation">.</code>status <code class="token operator">==</code> <code class="token number">200</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token keyword">return</code> response<code class="token punctuation">.</code><code class="token function">json</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token punctuation">}</code> <code class="token keyword">else</code> <code class="token punctuation">{</code>
+    <code class="token keyword">throw</code> <code class="token keyword">new</code> <code class="token class-name">HttpError</code><code class="token punctuation">(</code>response<code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token punctuation">}</code>
+<code class="token punctuation">}</code>
+
+<code class="token comment">// Ask for a user name until github returns a valid user</code>
+<code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">demoGithubUser</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+
+  <code class="token keyword">let</code> user<code class="token punctuation">;</code>
+  <code class="token keyword">while</code><code class="token punctuation">(</code><code class="token boolean">true</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+    <code class="token keyword">let</code> name <code class="token operator">=</code> <code class="token function">prompt</code><code class="token punctuation">(</code><code class="token string">"Enter a name?"</code><code class="token punctuation">,</code> <code class="token string">"iliakan"</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+    <code class="token keyword">try</code> <code class="token punctuation">{</code>
+      user <code class="token operator">=</code> <code class="token keyword">await</code> <code class="token function">loadJson</code><code class="token punctuation">(</code><code class="token template-string"><code class="token string">`https://api.github.com/users/</code><code class="token interpolation"><code class="token interpolation-punctuation punctuation">${</code>name<code class="token interpolation-punctuation punctuation">}</code></code><code class="token string">`</code></code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+      <code class="token keyword">break</code><code class="token punctuation">;</code> <code class="token comment">// no error, exit loop</code>
+    <code class="token punctuation">}</code> <code class="token keyword">catch</code><code class="token punctuation">(</code>err<code class="token punctuation">)</code> <code class="token punctuation">{</code>
+      <code class="token keyword">if</code> <code class="token punctuation">(</code>err <code class="token keyword">instanceof</code> <code class="token class-name">HttpError</code> <code class="token operator">&amp;&amp;</code> err<code class="token punctuation">.</code>response<code class="token punctuation">.</code>status <code class="token operator">==</code> <code class="token number">404</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+        <code class="token comment">// loop continues after the alert</code>
+        <code class="token function">alert</code><code class="token punctuation">(</code><code class="token string">"No such user, please reenter."</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+      <code class="token punctuation">}</code> <code class="token keyword">else</code> <code class="token punctuation">{</code>
+        <code class="token comment">// unknown error, rethrow</code>
+        <code class="token keyword">throw</code> err<code class="token punctuation">;</code>
+      <code class="token punctuation">}</code>
+    <code class="token punctuation">}</code>
+  <code class="token punctuation">}</code>
+
+
+  <code class="token function">alert</code><code class="token punctuation">(</code><code class="token template-string"><code class="token string">`Full name: </code><code class="token interpolation"><code class="token interpolation-punctuation punctuation">${</code>user<code class="token punctuation">.</code>name<code class="token interpolation-punctuation punctuation">}</code></code><code class="token string">.`</code></code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+  <code class="token keyword">return</code> user<code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">demoGithubUser</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div></div><button class="close-button task__answer-close" type="button" title="close"></button></div></div></div></div><div class="task tasks__task"><div class="task__header"><div class="task__title-wrap"><h3 class="task__title"><a class="main__anchor" href="#call-async-from-non-async" name="call-async-from-non-async">Call async from non-async</a></h3><a class="task__open-link" href="https://javascript.info/task/async-from-regular" target="_blank"></a></div><div class="task__header-note"></div><div class="task__content"><p>We have a “regular” function. How to call <code>async</code> from it and use its result?</p>
+<div data-trusted="1" class="code-example" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">wait</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">await</code> <code class="token keyword">new</code> <code class="token class-name">Promise</code><code class="token punctuation">(</code><code class="token parameter">resolve</code> <code class="token operator">=&gt;</code> <code class="token function">setTimeout</code><code class="token punctuation">(</code>resolve<code class="token punctuation">,</code> <code class="token number">1000</code><code class="token punctuation">)</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+  <code class="token keyword">return</code> <code class="token number">10</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token comment">// ...what to write here?</code>
+  <code class="token comment">// we need to call async wait() and wait to get 10</code>
+  <code class="token comment">// remember, we can't use "await"</code>
+<code class="token punctuation">}</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div><p>P.S. The task is technically very simple, but the question is quite common for developers new to async/await.</p>
+<button class="task__solution" type="button">solution</button><div class="task__answer"><div class="task__answer-content"><p>That’s the case when knowing how it works inside is helpful.</p>
+<p>Just treat <code>async</code> call as promise and attach <code>.then</code> to it:</p>
+<div data-trusted="1" class="code-example" data-highlight="[{&quot;start&quot;:8,&quot;end&quot;:8}]" data-prism-highlighted="1">
+      <div class="codebox code-example__codebox">
+        
+        <div class="toolbar codebox__toolbar">
+          <div class="toolbar__tool">
+            <a href="#" title="run" data-action="run" class="toolbar__button toolbar__button_run"></a>
+          </div>
+          <div class="toolbar__tool">
+            <a href="#" title="open in sandbox" target="_blank" data-action="edit" class="toolbar__button toolbar__button_edit"></a>
+          </div>
+        </div>
+        <div class="codebox__code" data-code="1">
+          <pre class="line-numbers  language-javascript"><code class="block-highlight" data-start="8">
+
+
+
+
+
+
+
+<code class="mask">
+</code></code><code class=" language-javascript"><code class="token keyword">async</code> <code class="token keyword">function</code> <code class="token function">wait</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token keyword">await</code> <code class="token keyword">new</code> <code class="token class-name">Promise</code><code class="token punctuation">(</code><code class="token parameter">resolve</code> <code class="token operator">=&gt;</code> <code class="token function">setTimeout</code><code class="token punctuation">(</code>resolve<code class="token punctuation">,</code> <code class="token number">1000</code><code class="token punctuation">)</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+
+  <code class="token keyword">return</code> <code class="token number">10</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token keyword">function</code> <code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code> <code class="token punctuation">{</code>
+  <code class="token comment">// shows 10 after 1 second</code>
+  <code class="token function">wait</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">.</code><code class="token function">then</code><code class="token punctuation">(</code><code class="token parameter">result</code> <code class="token operator">=&gt;</code> <code class="token function">alert</code><code class="token punctuation">(</code>result<code class="token punctuation">)</code><code class="token punctuation">)</code><code class="token punctuation">;</code>
+<code class="token punctuation">}</code>
+
+<code class="token function">f</code><code class="token punctuation">(</code><code class="token punctuation">)</code><code class="token punctuation">;</code></code><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></pre>
+        </div>
+      </div>
+      
+      </div></div><button class="close-button task__answer-close" type="button" title="close"></button></div></div></div></div></div></div><div class="page__nav-wrap"><a class="page__nav page__nav_prev" href="https://javascript.info/microtask-queue" data-tooltip="Microtasks"><span class="page__nav-text"><span class="page__nav-text-shortcut">Ctrl + <span class="page__nav-text-arr">←</span></span></span><span class="page__nav-text-alternate">Previous lesson</span></a><a class="page__nav page__nav_next" href="https://javascript.info/generators-iterators" data-tooltip="Generators, advanced iteration"><span class="page__nav-text"><span class="page__nav-text-shortcut">Ctrl + <span class="page__nav-text-arr">→</span></span></span><span class="page__nav-text-alternate">Next lesson</span></a></div><div class="article-tablet-foot tablet-only"><div class="article-tablet-foot__layout"><div class="share-icons"><span class="share-icons__title">Share</span><a class="share share_tw" href="https://twitter.com/share?url=https%3A%2F%2Fjavascript.info%2Fasync-await" rel="nofollow"></a><a class="share share_fb" href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p%5Burl%5D=https%3A%2F%2Fjavascript.info%2Fasync-await" rel="nofollow"></a></div><div class="article-tablet-foot__map"><a class="map" href="https://javascript.info/tutorial/map" data-action="tutorial-map"><span class="map__text">Tutorial map</span></a></div></div></div><div class="comments formatted" id="comments"><div class="comments__header"><h2 class="comments__header-title"><a href="#comments" name="comments">Comments</a></h2><div class="comments__read-before"><span class="comments__read-before-link">read this before commenting…</span><div class="comments__read-before-popup"><div class="comments__read-before-popup-i"><ul><li>If you have suggestions what to improve - please <a href="https://github.com/javascript-tutorial/en.javascript.info/issues/new">submit a GitHub issue</a> or a pull request instead of commenting.</li><li>If you can't understand something in the article – please elaborate.</li><li>To insert a few words of code, use the <code>&lt;code&gt;</code> tag, for several lines – use <code>&lt;pre&gt;</code>, for more than 10 lines – use a sandbox (<a href="https://plnkr.co/edit/?p=preview">plnkr</a>, <a href="https://jsbin.com/">JSBin</a>, <a href="http://codepen.io/">codepen</a>…)</li></ul></div></div></div></div><div id="disqus_thread" class="disqus-loading"><iframe id="dsq-app5787" name="dsq-app5787" allowtransparency="true" scrolling="no" tabindex="0" title="Disqus" src="Async_await_files/a.html" style="height: 8519px !important;" horizontalscrolling="no" verticalscrolling="no" width="100%" frameborder="0"></iframe></div><script>var disqus_config = function() { if (!this.page) this.page = {}; Object.assign(this.page, {"url":"https:\/\/javascript.info\/async-await","identifier":"\/async-await"}); };</script><script>var disqus_shortname = "javascriptinfo";</script><script>var disqus_enabled = true;</script></div></main></div><div class="sidebar page__sidebar sidebar sidebar_sticky-footer" style="top: 64px;"><button class="sidebar__toggle" data-sidebar-toggle=""></button><a class="map" href="https://javascript.info/tutorial/map" data-action="tutorial-map" data-tooltip="Tutorial map"></a><div class="sidebar__inner"><div class="sidebar__content"><div class="sidebar__section"><h4 class="sidebar__section-title">Chapter</h4><nav class="sidebar__navigation"><ul class="sidebar__navigation-links"><li class="sidebar__navigation-link"><a class="sidebar__link" href="https://javascript.info/async">Promises, async/await</a></li></ul></nav></div><div class="sidebar__section"><h4 class="sidebar__section-title">Lesson navigation</h4><nav class="sidebar__navigation"><ul class="sidebar__navigation-links"><li class="sidebar__navigation-link"><a class="sidebar__link" href="#async-functions">Async functions</a></li><li class="sidebar__navigation-link"><a class="sidebar__link" href="#await">Await</a></li><li class="sidebar__navigation-link"><a class="sidebar__link" href="#error-handling">Error handling</a></li><li class="sidebar__navigation-link"><a class="sidebar__link" href="#summary">Summary</a></li></ul></nav></div><div class="sidebar__section"><nav class="sidebar__navigation"><ul class="sidebar__navigation-links"><li class="sidebar__navigation-link"><a class="sidebar__link" href="#tasks">Tasks (3)</a></li><li class="sidebar__navigation-link"><a class="sidebar__link" href="#comments">Comments</a></li></ul></nav></div><div class="sidebar__section"><div class="sidebar__section-title">Share</div><a class="share share_tw sidebar__share" href="https://twitter.com/share?url=https%3A%2F%2Fjavascript.info%2Fasync-await" rel="nofollow"></a><a class="share share_fb sidebar__share" href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fjavascript.info%2Fasync-await" rel="nofollow"></a></div><div class="sidebar__section"><a class="sidebar__link" href="https://github.com/javascript-tutorial/en.javascript.info/blob/master/1-js/11-async/08-async-await" rel="nofollow">Edit on GitHub</a></div><div class="sidebar__section" id="sponsorBar"><div class="sidebar__section-title">Ads</div><script>window.initSponsorBar()</script><div id="codefund"></div><script src="Async_await_files/funder.js"></script></div></div></div></div></div></div><div class="page-footer"><ul class="page-footer__list"><li class="page-footer__item page-footer__item_copy">©&nbsp;2007—2020&nbsp; Ilya Kantor</li><li class="page-footer__item page-footer__item_about"><a class="page-footer__link" href="https://javascript.info/about">about the project</a></li><li class="page-footer__item page-footer__item_contact"><a class="page-footer__link" href="https://javascript.info/about#contact-us">contact us</a></li><li class="page-footer__item page-footer__item_terms"><a class="page-footer__link" href="https://javascript.info/terms">terms of usage</a></li><li class="page-footer__item page-footer__item_privacy"><a class="page-footer__link" href="https://javascript.info/privacy">privacy policy</a></li></ul></div><span class="px-viewport-dimensions px-viewport-dimensions--hidden tr"></span><iframe style="display: none;"></iframe></body></html>
