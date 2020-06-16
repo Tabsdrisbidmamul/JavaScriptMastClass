@@ -297,19 +297,61 @@
 
         // getRecipesAW().then(result => console.log(`${result} is the best ever`));
 
-        fetch("https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/2487956/")
-        .then(result => {
-            console.log(result);
-            return result.json();
-        })
+        /*
+          fetch() accepts an URL for an API more specifically to retrieve JSON (JavaScript Object Notation) - which is a String which contains one large JS object
+
+          fetch() returns a Promise object - so we can use the 
+          then() method on it to parse the data
+
+          the fetch() method when retrieving the data it will produce a Response Object which contains the HTML request with the header, body etc...
+          
+          We are interested in the body data, and that is keyed to a ReadableStream - so we have to convert that object to JSON
+          
+          so we simply call the json() method on the data for it  to be converted
+        
+        */    
+
+        function getWeather(woeid) {
+            fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`)
+            .then(result => {
+                // console.log(result);
+                return result.json();
+            })
+            .then(data => {
+                // console.log(data);
+                const today = data.consolidated_weather[0];
+                console.log(`Temperatures today in ${data.title} with a minimum of ${today.min_temp} and a maximum of ${today.max_temp}.`);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+
+        getWeather(2487956);
+        getWeather(44418);
+
+        async function getWeatherAW(woeid) {
+            try {
+                const response = await fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`);
+
+                if(response.status === 200) {
+                    const json = await response.json();
+                    const tomorrow = json.consolidated_weather[1];
+                    console.log(`Temperatures tomorrow in ${json.title} with a minimum of ${tomorrow.min_temp} and a maximum of ${tomorrow.max_temp}.`);
+                    return json;
+                }  
+            } catch(e) {
+                console.log(e);
+            } 
+        }
+
+        let dataSanFrancisco;
+        getWeatherAW(2487956)
         .then(data => {
-            // console.log(data);
-            const today = data.consolidated_weather[0];
-            console.log(`Temperatures in ${data.title} with a minimum of ${today.min_temp} and a maximum of ${today.max_temp}.`);
-        })
-        .catch(error => {
-            console.log(error);
+            dataSanFrancisco = data
+            console.log(dataSanFrancisco);
         });
+        getWeatherAW(44418);
 
     </script>
 </body>
