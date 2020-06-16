@@ -6,10 +6,187 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Asynchronous JavaScript</title>
 </head>
-<body>
+<body style="background-color: #555;">
     <h1>Asynchronous JavaScript</h1>
     <script>
+        // const second = () => {
+        //     setTimeout(() => {
+        //         console.log("Asynch Hey there");
+        //     }, 2000);
+        // }
+
+        // const first = () => {
+        //     console.log("Hey there");
+        //     second();
+        //     console.log("The end");
+        // };
+
+        // first();
+
+        // function getRecipe() {
+        //     setTimeout(() => {
+        //         const recipeId = [523, 883, 432, 974];
+        //         console.log(recipeId);
+
+
+        //         setTimeout(id => {
+        //             const recipe = {title: "Fresh Tomato Pasta", publisher: "Jonas" };
+        //             console.log(`${id}: ${recipe.title}`);
+
+        //             setTimeout(publisher => {
+        //                 const recipe = {title: "Italian Pizza", publisher: "Jonas"}
+
+        //                 console.log(`${publisher}: ${recipe.title}`);
+        //             }, 1500, recipe.publisher);
+
+
+        //         }, 1000, recipeId[2]);
+        //     }, 1500)
+        // }
+
+        // getRecipe();
+
+        /* The promise can have 2 states pending and fulfilled
+           Within the successful state there are 2 sub-states resolved or reject 
+
+           resolved: being that the asynchronous task was completed and the data that was expected was retrieved
+
+           reject: being that the asynchronous task was not successful and the data that was expected was not retrieved
+
+           The promise object accepts 2 callback function parameters: resolve and reject 
+
+           They tell the Promise object what to do depending on the resolved state and their sub-states
+
+           This function that we pass to the Promise object is called the executor function
         
+        */
+        const getIDs = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                // By calling the resolve function here marks that the Promise was successful and the expected data was returned
+
+                // The resolve function accepts an argument of the data that should be returned
+                // resolve([523, 883, 432, 974]);
+
+
+                // By calling the reject function here marks that the Promise was unsuccessful
+                resolve([523, 883, 432, 974]);
+                
+            }, 1500);
+        });
+
+        const getRecipe = recID => {
+            return new Promise((resolve, reject) => {
+                setTimeout((ID) => {
+                    const recipe = {
+                        title: "Fresh Tomato Pasta", 
+                        publisher: "Jonas" };
+                    resolve([`${ID}: ${recipe.title}`, recipe.publisher]);
+                }, 1000, recID);
+            }); 
+        };
+
+        const getPublisher = publisher => {
+            return new Promise((resolve, reject) => {
+                setTimeout(pub => {
+                        const recipe = {
+                            title: "Italian Pizza", 
+                            publisher: "Jonas"};
+                        resolve(`${pub}: ${recipe.title}`);
+                    }, 1500, publisher);
+            });
+        };
+
+        /*
+            all Promise objects have 2 methods which we can call on it - these are handlers to the Promise object which will act will execute the callback functions we pass to it
+
+            then(): if the Promise was resolved and successful then run this callback function
+
+            catch(): if the Promise was rejected and unsuccessful catch and handle the Exception
+        */
+
+        /*
+        resolve()
+            We pass into the callback function into the then() method as a parameter, and the callback function will always at least one parameter and that is the data that has been retrieved from the Promise
+
+            In the DevTools we can see that Promised object has key-pair value called <value>: data retrieved 
+
+            This is the data that retrieved when use a parameter in the callback function
+
+            so when we do 
+                (IDs => console.log(IDs);)
+
+            we are doing
+                console.log(<value>;)
+                <value> := data retrieved back in this case 
+                           [523, 883, 432, 974]
+            
+        reject()                   
+            A common thing we do is to chain the then() and catch() method together like so 
+
+            Promise.then().catch()
+
+            depending on the method call - the <status> of the Promise object will change
+
+            In the DevTools we have <value> for the data retrieved, but we also have <status> which defines the state of the Promise object rejected or resolved
+                
+            So from there the then() or catch() methods will be ran
+
+            and like resolve() we can pass data into the reject() method as well
+
+            chaining
+            To avoid the "callback hell" -> which is a triangle or waterfall of callbacks within another callback
+
+            We use promises to separate them out, which we then can return from one promise a successful result to another promise by chaining them together
+            
+        */
+        getIDs
+        .then(IDs => {
+            console.log(IDs);
+            // Here we return the ID retrieved from our "hypothetical" AJAX call to the DB
+            return getRecipe(IDs[2]);
+        })
+        /* 
+        
+        - This return value here in return getRecipe(IDs[2]) is another Promise Object in which we pass the data retrieved from the getIDs Promise object 
+        
+        - We can now use another then() method call to chain call on the previous then() - remembering that we call the getRecipe() method on this which returns a new Promise object - to do something on the retrieved data that we got when passing an ID that is linked to the recipes
+
+        So think of it like this
+            - IDs: stored in a table
+            - Recipes: stored in a table that are linked by IDs
+
+        Conclusion:
+        - Promise(s) allow us to write asynchronous code (concurrent code from JavaScript WebAPIs) without having to write a waterfall of callbacks
+
+        - Promises can be written as separate components (in this example reference type variables) which all hold Promise Objects
+        We can write them in 2 ways (so far in these examples)
+            - As simple Promise objects which we can run a task on a background Thread
+            - As a return type from an anonymous function where we can pass in data to that task to be ran on a background Thread
+        
+        - We can chain then() and catch() methods together with a Promise object
+
+        - If we return a new Promise object within a then() method, we can chain the 2 then()s together like so
+            
+            Promise
+            .then(param => return new Promise(
+                (resolve, reject) => {...})
+            )
+            .then(param => {...})
+
+        By doing so we can use the data retrieved from Promise object, and pass that data into another Promise object to do processing on that retrieved data
+        
+        */
+        .then(recipeObj => {
+            [recipe, publisher] = recipeObj;
+            console.log(recipe);
+            return getPublisher(publisher);
+        })
+        .then(publisherContent => {
+            console.log(publisherContent);
+        })
+        .catch(error => {
+            console.log("Error!!");
+        });
     </script>
 </body>
 </html>
