@@ -1,3 +1,6 @@
+// api: https://forkify-api.herokuapp.com/api/search
+// api search example:  https://forkify-api.herokuapp.com/api/search?q=pizza
+
 import axios from 'axios';
 
 export default class Search {
@@ -10,7 +13,7 @@ export default class Search {
             const res = await axios(`https://forkify-api.herokuapp.com/api/search?q=${this.query}`);
             this.recipes = res.data.recipes;
         } catch(e) {
-            alert(e);
+            alert("Something went wrong!");
         }
     
     }

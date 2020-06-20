@@ -1,12 +1,7 @@
 // Global app controller
 
-// api: https://forkify-api.herokuapp.com/api/search
-// api search example:  https://forkify-api.herokuapp.com/api/search?q=pizza
-
-// api get: https://forkify-api.herokuapp.com/api/get
-// api get example: https://forkify-api.herokuapp.com/api/get?rId=47746
-
 import Search from "./models/Search";
+import Recipe from "./models/Recipe";
 import * as searchView from "./views/searchView";
 import { elements, renderLoader, clearLoader } from "./views/base";
 
@@ -20,7 +15,9 @@ const state = {
 
 };
 
-
+/**
+ * SEARCH CONTROLLER
+ */
 const controlSearch = async () => {
     // 1. Get the query from the view
     const query = searchView.getInput(); 
@@ -34,14 +31,17 @@ const controlSearch = async () => {
         searchView.clearInput();
         searchView.clearResults();
         renderLoader(elements.searchRes);
+        try {
+            // 4. Search for recipes
+            await state.search.getResults();
 
-        // 4. Search for recipes
-        await state.search.getResults();
-
-        // 5. Render results on UI
-        clearLoader();
-        searchView.renderResults(state.search.recipes);
-
+            // 5. Render results on UI
+            clearLoader();
+            searchView.renderResults(state.search.recipes);
+        } catch (e) {
+            alert("Error Retrieving recipes");
+            clearLoader();
+        }
     }
      
 };
@@ -58,7 +58,7 @@ elements.searchForm.addEventListener("submit", e => {
     controlSearch();
 });
 
-elements.searchResPages.addEventListener("click", (e) => {
+elements.searchResPages.addEventListener("click", e => {
     const btn =  e.target.closest(".btn-inline");
     if(btn) {
         const goToPage = parseInt(btn.dataset.goto, 10);
@@ -67,5 +67,42 @@ elements.searchResPages.addEventListener("click", (e) => {
         window.scrollTo(0, 0);
     }
 });
+
+/**
+ * RECIPE CONTROLLER
+ */
+
+ const controlRecipe = async () => {
+     // GET ID from URL
+     const id = window.location.hash.replace("#", "");
+     console.log(id);
+
+     if(id) {
+        // Prepare UI for changes
+
+
+        // Create new Recipe Object
+        state.recipe = new Recipe(id);
+
+        try {
+            // Get recipe data
+            await state.recipe.getRecipe();
+
+            // Calculate servings and time
+            state.recipe.calcTime();
+            state.recipe.calcServings();
+
+            // Render recipe
+            console.log(state.recipe);
+        } catch (e) {
+            alert("Error processing recipe!");
+        }
+
+     }
+ }
+
+
+["hashchange", "load"].forEach(e => window.addEventListener(e, controlRecipe));
+
 
 
