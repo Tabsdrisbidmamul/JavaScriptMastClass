@@ -35,20 +35,8 @@ export default class Recipe {
     }
 
     parseIngredients() {
-        const unitsLong = ["tablespoons", "tablespoon", "ounces", "ounce", "teaspoons", "teaspoon", "cups", "pounds"];
-        const unitShort = ["tbsp", "tbsp", "oz", "oz", "tsp", "tsp", "cup", "pound"]
-
-        // const unitConversion = new Map([
-        //     ["tablespoons", "tbsp"],
-        //     ["tablespoon", "tbsp"],
-        //     ["ounces", "oz"],
-        //     ["ounce", "oz"],
-        //     ["teaspoon", "tsp"],
-        //     ["teaspoons", "tsp"],
-        //     ["cups", "cup"],
-        //     ["pounds", "pound"]
-        // ]);
-        
+        const unitsLong = ["tablespoons", "tablespoon", "ounces", "ounce", "teaspoons", "teaspoon", "cups", "pounds", "kg", "g"];
+        const unitShort = ["tbsp", "tbsp", "oz", "oz", "tsp", "tsp", "cup", "pound", "kg", "g"]
 
         const newIngredients = this.ingredients.map(cur => {
             // 1. Make units Uniform
@@ -64,15 +52,37 @@ export default class Recipe {
 
             // Split the ingredient into separate words and numbers
             const arrIng = ingredient.split(" ");
-
+            
             // find the index of a unit
             const unitIndex = arrIng.findIndex(el => 
-                unitsShort.includes(el));
+                unitShort.includes(el));
 
             // Object to hold the count, unit and ingredient    
             let objIng;
             if(unitIndex > -1) {
                 // There is a unit
+
+                // Ex. 4 1/2 cups -> [4, 1/2] -> eval("4+1/2") = 4.5
+                // Ex. 4 cups -> [4]
+
+                /**
+                 * eval() is dangerous as it will evaluate all forms of input as JS code -> if left to the end-user they can access inner workings of the system (like an SQL-injection attack) - thus this must be used with utmost care
+                 */
+                const arrCount = arrIng.slice(0, unitIndex);
+ 
+                let count;
+                if(arrCount.length === 1) {
+                    count = eval(arrCount[0].replace("-", "+"));
+                } else {
+                    count = eval((arrCount).join("+"));
+                }
+
+                objIng = {
+                    count,
+                    unit: arrIng[unitIndex],
+                    ingredient: arrIng.slice(unitIndex + 1).join(" ")
+                };
+
 
             } else if (parseInt(arrIng[0], 10)) {
                 // There is NO unit, but 1st element is a number -> just a quantity of said ingredient'
@@ -91,29 +101,28 @@ export default class Recipe {
                 }
             }
                 
-            return ingredient;
+            return objIng;
         })
         this.ingredients = newIngredients;
     }
-}
 
-/**
- * recipe: {…}
-​​​
-image_url: "http://forkify-api.herokuapp.com/images/best_pizza_dough_recipe1b20.jpg"
-​​​
-ingredients: Array(6) [ "4 1/2 cups (20.25 ounces) unbleached high-gluten, bread, or all-purpose flour, chilled", "1 3/4 (.44 ounce) teaspoons salt", "1 teaspoon (.11 ounce) instant yeast", … ]
-​​​
-publisher: "101 Cookbooks"
-​​​
-publisher_url: "http://www.101cookbooks.com"
-​​​
-recipe_id: "47746"
-​​​
-social_rank: 100
-​​​
-source_url: "http://www.101cookbooks.com/archives/001199.html"
-​​​
-title: "Best Pizza Dough Ever"
- * 
- */
+    updateServings(type) {
+        /**
+         * type: increase or decrease (plus or minus) buttons
+         * 
+         */
+        // Servings
+        const newServings = type === "dec" ? this.servings-- : this.servings++;
+
+        // Ingredients
+        
+        this.ingredients.forEach(ing => {
+            ing.count *= (newServings / this.servings);
+        })
+        
+        this.servings = newServings;
+
+
+
+    }
+}
