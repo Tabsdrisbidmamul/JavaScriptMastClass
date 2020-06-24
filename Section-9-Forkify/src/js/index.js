@@ -5,6 +5,7 @@ import Recipe from "./models/Recipe";
 import List from './models/List';
 import * as searchView from "./views/searchView";
 import * as recipeView from "./views/recipeView";
+import * as listView from "./views/listView";
 import { elements, renderLoader, clearLoader } from "./views/base";
 
 /** Global State
@@ -113,6 +114,48 @@ elements.searchResPages.addEventListener("click", e => {
 ["hashchange", "load"].forEach(e => window.addEventListener(e, controlRecipe));
 
 
+/**
+ * LIST CONTROLLER
+ */
+const controlList = () => {
+    // Create a new list IF there is none yet
+    if(!state.list) state.list = new List();
+
+    // Add each ingredient to the list and to UI
+    state.recipe.ingredients.forEach(el => {
+        const item = state.list.addItem(el.count, el.unit, el.ingredient);
+        listView.renderItem(item);
+    });
+
+}
+
+// Handle delete and update list item events
+["click", "change"].forEach(l => elements.shopping.addEventListener(l, e => {
+    const click = e.target.closest(".shopping__item");
+    const id = click.dataset.itemid;
+    if(click) {
+
+        // delete the item
+        if(e.target.matches(".shopping__delete, .shopping__delete *")) {
+            // delete from state
+            state.list.deleteItem(id);
+
+            // delete from UI
+            listView.deleteItem(id);
+        } 
+        // change the count
+        else if (e.target.matches(".shopping__count-value")) {
+            // read the target element from the input element
+            const val = parseFloat(e.target.value);
+
+            // check if value is greater than 0, then update the state
+            if(val > 0 ) state.list.updateCount(id, val);
+        }
+    }
+
+}));
+
+
 // Handling recipe button clicks
 elements.recipe.addEventListener("click", e => {
 
@@ -131,8 +174,11 @@ elements.recipe.addEventListener("click", e => {
             state.recipe.updateServings("inc");
             recipeView.updateServingsIngredient(state.recipe);
         }
+    } else if (e.target.matches(".recipe__btn--add, .recipe__btn--add *")) {
+        controlList();
+
     }
 
 });
 
-window.l = new List();
+window.s = state;
