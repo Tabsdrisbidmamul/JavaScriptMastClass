@@ -11,7 +11,7 @@ export const highlightSelected = id => {
     const resultsArr = Array.from(document.querySelectorAll(".results__link"));
     resultsArr.forEach(cur => cur.classList.remove("results__link--active"));
 
-    document.querySelector(`a[href="#${id}"]`).classList.add("results__link--active");
+    document.querySelector(`.results__link[href="#${id}"]`).classList.add("results__link--active");
 }
 
 export const clearResults = () => {
@@ -19,20 +19,18 @@ export const clearResults = () => {
     elements.searchResPages.innerHTML = "";
 }
 
-const renderRecipe = recipe => {
-    /*
-        Limit titles to be three words max
-    */
-    const limitRecipeWords = (title, limit=17) => {
+export const limitRecipeWords = (title, limit=17) => {
 
-        if(title.length > limit) {
-            let newTitle = title.split("").splice(0, limit);
+    if(title.length > limit) {
+        let newTitle = title.split("").splice(0, limit);
 
-            return `${newTitle.join("")} ...`;
-        }
-
-        return title;
+        return `${newTitle.join("")} ...`;
     }
+
+    return title;
+}
+
+const renderRecipe = recipe => {
 
     const markup = `
     <li>
